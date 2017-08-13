@@ -40,8 +40,8 @@ class Complains(models.Model):
 	complain_for=models.CharField(max_length=50)
 	ucomplain = models.TextField()
 	created_on = models.DateTimeField(auto_now_add=True)
-	many_profile = models.ForeignKey(Profile)
-	many_category = models.ForeignKey(Category)
+	# many_profile = models.ForeignKey(Profile)
+	# many_category = models.ForeignKey(Category)
 
 
 
