@@ -3,96 +3,45 @@
 Compalin
 {% endblock %}
 {% block content %}
-
 	<form action="" method="post">
         {% csrf_token %}
         <div class="form-group">
-        	<label for ="description"> <h1>
-            {% if request.method == 'GET'%}
-            Complain Or Suggest
-            {% endif %}
-            {% if request.method == 'POST' and 'complain' in request.POST.keys %}
-            Complain
-            {% endif %}
-            {% if request.method == 'POST' and 'suggest' in request.POST.keys %}
-            Suggest
-            {% endif %}
-            </h1> </label>
+        	<label for ="description"> 
+                <h1>
+                    Complain Or Suggest
+                </h1> 
+            </label>
         	<br>
-            {% if request.method == 'GET' %}
             <div>
-        	<select name = "dropdown" class="form-control">
-        	{% for i in list %}
-	        	 <option>{{ i }}</option>
-	        {% endfor %}
-        	</select>
-            </div>
-             {% endif %}
-             {% if request.method == 'POST' and 'description' not in request.POST.keys%} 
+            	<select name = "dropdown" class="form-control">
+            	{% for i in list %}
+    	        	 <option>{{ i }}</option>
+    	        {% endfor %}
+            	</select>
+            </div> 
             <div class="form-group">
                             <br/>
                             <textarea class="form-control" name="description" placeholder="Write here..." rows=10 cols = device-width></textarea>
             </div>
-            {% endif %}
+        </div> 
+        <div class="form-group">
+        <small id ='pr' style="color: {{ color }};">{{ a }}</small>
+        <br/>
         </div>
         <div class="form-group">
         <div class="rows">
-            {% if request.method == 'GET' or 'complain' in request.POST.keys %} 
-                {% if request.method == 'GET' %}
-                <button type="submit" name="complain" class="btn btn-default submit"><i class="fa fa-paper-plane" aria-hidden="true"></i>
-                Complain
-                </button>
+                {% if "id" in request.session.keys %}
+                    <button type="submit" name="complain" class="btn btn-default submit"><i class="fa fa-paper-plane" aria-hidden="true"></i>
+                        Complain
+                    </button>
+                    <button type="submit" name="suggest" class="btn btn-default submit"><i class="fa fa-paper-plane" aria-hidden="true"></i>
+                        Suggest
+                    </button>
                 {% else %}
-                    {% if "id" in request.session.keys %}
-                        <button type="submit" name="csubmit" class="btn btn-default submit" onclick="fun()"><i class="fa fa-paper-plane" aria-hidden="true"></i>
-                        Submit
-                        </button>
-                    {% else %}
-                    <button type="submit" name="lsubmit" class="btn btn-default submit"><i class="fa fa-paper-plane" aria-hidden="true"></i>
-                        Login to submit
-                        </button>
-                    {% endif %}
+                   <button type="submit" name="lsubmit" class="btn btn-default submit"><i class="fa fa-paper-plane" aria-hidden="true"></i>
+                        LogIn to Complain or Suggest
+                    </button> 
                 {% endif %}
-                
-                </button>
-            {% endif %}
-            
-            {% if request.method == 'GET' or 'suggest' in request.POST.keys %}
-        		{% if request.method == 'GET' %}
-                <button type="submit" name="suggest" class="btn btn-default submit"><i class="fa fa-paper-plane" aria-hidden="true"></i>
-                Suggest
-                </button>
-                {% else %}
-                    {% if "id" in request.session.keys %}
-                        <button type="submit" name="ssubmit" class="btn btn-default submit"><i class="fa fa-paper-plane" aria-hidden="true"></i>
-                        Submit
-                        </button>
-                    {% else %}
-                    <button type="submit" name="lsubmit" class="btn btn-default submit"><i class="fa fa-paper-plane" aria-hidden="true"></i>
-                        Login to submit
-                        </button>
-                    {% endif %}
-                {% endif %}
-                
-                </button>
-            {% endif %}
-        	<br/>
-            <small id ='pr' style="color: green;">{{a}}</small>
-        </div>
         </div>
     </form>
-<script type="text/javascript">
-    function fun()
-    {
-        var x = document.getElementsByName("description").value;
-        var result = /[a-zA-Z]/.test(x);
-        if(!result)
-        {   
-            document.getElementById("pr").value="Please enter some text to file the complain"
-            document.getElementById("pr").style.color = "red";
-
-        }
-    
-    }
-</script>
 {% endblock %}

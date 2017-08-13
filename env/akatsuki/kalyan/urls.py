@@ -11,6 +11,4 @@ urlpatterns = [
  	url(r'^scomplain$', views.scomplain, name='kalyan_scomplain'),
  	url(r'^logout$', views.logout, name='kalyan_logout'),
  	url(r'^public_views$', views.public_views, name='kalyan_public_views'),
- 	
-
 ]

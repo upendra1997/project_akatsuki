@@ -112,49 +112,51 @@ def feedback(request):
 		return HttpResponseRedirect("register")
 
 
-
+ls = []
 def scomplain(request):
+	ls = []
+	cqset=Category.objects.all()
+	for i in cqset:
+		ls.append(i.cname)
 	if(request.method == 'POST' and 'lsubmit' in request.POST.keys()):
 		return HttpResponseRedirect("login")
 	# if(request.method == 'POST' and 'complain' in request.POST.keys() and 'dropdown' in request.POST.keys()):
 	# 	option_val=request.POST['dropdown']
+	suggest_text = ''
+	if(request.method == 'POST'):
+		suggest_text=str(request.POST['description'])
+		if len(re.findall('[a-zA-Z]',suggest_text))==0:
+			a='Please enter some text to give the suggestion'
+			return render(request,"kalyan/HE/public/scomplain.html",{"a":a,"color":"red","list":ls})
 
-	if(request.method == 'POST' and 'csubmit' in request.POST.keys() and 'description' in request.POST.keys()):
+	if(request.method == 'POST' and 'complain' in request.POST.keys()):
 		print("write database into complain fields")
-		complain_text=str(request.POST['description'])
-		
+		complain_text=suggest_text
 		obj=Profile.objects.filter(pk=request.session["id"])
 		cur_uname=obj[0].uname
 		cobj=Complains()
 		cobj.uname=cur_uname
 		cobj.ucomplain=complain_text
-		cobj.complain_for="helo"
+		cobj.complain_for=request.POST["dropdown"]
 		cobj.save()
-
 		a = 'complain filed'
-		return render(request,"kalyan/HE/public/scomplain.html",{"a":a})
-	elif(request.method == 'POST' and 'ssubmit' in request.POST.keys() and 'description' in request.POST.keys()):
+		return render(request,"kalyan/HE/public/scomplain.html",{"a":a,"color":"green","list":ls})
+	
+	elif(request.method == 'POST' and 'suggest' in request.POST.keys()):
 		print("write database into suggest field")
 		suggest_text=str(request.POST['description'])
-		if len(re.findall('[a-zA-Z]',suggest_text))==0:
-			a='Please enter some text to give the suggestion'
-		else:
-			obj=Profile.objects.filter(pk=request.session["id"])
-			cur_uname=obj[0].uname
-			sobj=Suggestions()
-			sobj.uname=cur_uname
-			sobj.usuggestion=suggest_text
-			# sobj.suggest_for=option_val
-			sobj.save()
-			a = 'suggestion registered'
-		return render(request,"kalyan/HE/public/scomplain.html",{"a":a})
+		obj=Profile.objects.filter(pk=request.session["id"])
+		cur_uname=obj[0].uname
+		sobj=Suggestions()
+		sobj.uname=cur_uname
+		sobj.usuggestion=suggest_text
+		sobj.suggest_for=request.POST["dropdown"]
+		sobj.save()
+		a = 'suggestion registered'
+		return render(request,"kalyan/HE/public/scomplain.html",{"a":a,"color":"green","list":ls})
 	
 	else:
-		ls = []
-		cqset=Category.objects.all()
-		for i in cqset:
-			ls.append(i.cname)
-		return render(request,"kalyan/HE/public/scomplain.html",{"list":ls})
+		return render(request,"kalyan/HE/public/scomplain.html",{"list":ls,"a":"Don't disclose your identity when writing into the box.","color":"purple"})
 
 
 
@@ -164,7 +166,6 @@ def public_views(request):
 	qset=Complains.objects.all()
 	for obj in qset:
 		ls.append([obj.uname,obj.complain_for,obj.ucomplain,timezone.localtime(obj.created_on)])
-
 	return render(request,"kalyan/HE/public/public_views.html",{"ls":ls})
 
 
