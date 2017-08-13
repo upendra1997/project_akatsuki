@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+    {% block title %}
+    	Feedback
+    {% endblock %}
+        <!-- Write code -->
+{% block content %}
+			<div class="container">
+				<form action="feedback" method="POST">
+				{% csrf_token %}
+			  			<div class="form-group">
+			  				<label for ="description"> <h1>Feedback</h1> </label>
+			  				<br>
+			  			 	<textarea class="form-control" name="description" placeholder="Give your feedback" rows=10 cols = 50></textarea>
+			  			</div>
+			  			<button type="button" class="btn btn-default submit"><i class="fa fa-paper-plane" aria-hidden="true"></i>  Give Feedback</button>
+				</form>
+			</div>
+{% endblock %}

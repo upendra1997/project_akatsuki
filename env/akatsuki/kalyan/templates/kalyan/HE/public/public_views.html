@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+    {% block title %}
+    	Public Views
+    {% endblock %}
+        <!-- Write code -->
+{% block content %}
+
+{% for list in ls %}
+
+{{ list[0] }}
+{{ list[1] }}
+{{ list[2] }}
+{{ list[3] }}
+
+
+
+{% endfor %}
+
+
+
+
+{% endblock %}

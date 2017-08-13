@@ -1,0 +1,17 @@
+﻿
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch upendra
+# Changes to be committed:
+#	new file:   env/akatsuki/akatsuki/__pycache__/__init__.cpython-36.pyc
+#	new file:   env/akatsuki/akatsuki/__pycache__/settings.cpython-36.pyc
+#	new file:   env/akatsuki/akatsuki/__pycache__/urls.cpython-36.pyc
+#	new file:   env/akatsuki/akatsuki/__pycache__/wsgi.cpython-36.pyc
+#	new file:   env/akatsuki/kalyan/__pycache__/__init__.cpython-36.pyc
+#	new file:   env/akatsuki/kalyan/__pycache__/admin.cpython-36.pyc
+#	new file:   env/akatsuki/kalyan/__pycache__/models.cpython-36.pyc
+#	new file:   env/akatsuki/kalyan/__pycache__/urls.cpython-36.pyc
+#	new file:   env/akatsuki/kalyan/__pycache__/views.cpython-36.pyc
+#	new file:   env/akatsuki/kalyan/migrations/__pycache__/__init__.cpython-36.pyc
+#
+

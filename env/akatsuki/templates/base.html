@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <title>Kalyan Yojana: {%block title%} {%endblock%}</title>
+        <meta charset="utf-8">
+        <meta name="author" content="Akatsuki">
+        <meta name="description" content="Kalyan Yojana">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel ="icon" href=""> 
+      <link href="{% static 'kalyan/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'kalyan/css/styles.css' %}" rel="stylesheet">
+          <!-- <script src="js/bootstrap.min.js"/>
+        <script src="js/scripts.js"/> -->
+    </head>
+    <body>
+        <div class="container">
+            <div id="top">
+                <div>
+                    <a href="/"><h1 style="font-size: 100px; color: #90caf9;"><span lang="Hindi">कल्याण योजना</span></h1></a>
+                </div>
+                <ul class="nav nav-pills">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/public_views">Public Views</a></li>
+                    <li><a href="/scomplain">Complain | Suggest</a></li>
+                    <li><a href="/register">Register</a></li>
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/about">About Us</a></li>
+                    {% if "id" in request.session.keys %}
+                    <li><a href="/logout">LogOut</a></li>
+                    {% endif %}
+
+                </ul>
+            </div>
+        
+        <div id="middle">
+
+     <!-- Write code -->
+
+        {% block content %}
+
+        <!-- Write Code -->
+
+        {% endblock %}
+ </div>
+
+        <div id="bottom">
+            Brought to you by <a href="mailto:upendra.upadhyay.97@gmail.com">Akatsuki Team</a>.
+            <br>
+            Give <a href="/feedback">feedback.</a>
+         </div>
+    </body>
+</html>
