@@ -8,6 +8,11 @@
         <meta name="description" content="Kalyan Yojana">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        
+        {% block include_css %}
+
+        {% endblock %}
+
         <link rel ="icon" href=""> 
       <link href="{% static 'kalyan/css/bootstrap.min.css' %}" rel="stylesheet">
         <link href="{% static 'kalyan/css/styles.css' %}" rel="stylesheet">
@@ -22,7 +27,7 @@
                 </div>
                 <ul class="nav nav-pills">
                     <li><a href="/">Home</a></li>
-                    <li><a href="/public_views">Public Views</a></li>
+                    <li><a href="/public_views/complains/all">Public Views</a></li>
                     <li><a href="/scomplain">Complain | Suggest</a></li>
                     <li><a href="/register">Register</a></li>
                     <li><a href="/login">Login</a></li>
@@ -50,5 +55,12 @@
             <br>
             Give <a href="/feedback">feedback.</a>
          </div>
+    
+    {% block includes %}
+
+
+
+    {% endblock %}
+
     </body>
 </html>
