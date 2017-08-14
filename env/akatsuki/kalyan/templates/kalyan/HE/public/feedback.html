@@ -5,14 +5,20 @@
         <!-- Write code -->
 {% block content %}
 			<div class="container">
-				<form action="feedback" method="POST">
+				<form action="" method="POST">
 				{% csrf_token %}
 			  			<div class="form-group">
 			  				<label for ="description"> <h1>Feedback</h1> </label>
 			  				<br>
-			  			 	<textarea class="form-control" name="description" placeholder="Give your feedback" rows=10 cols = 50></textarea>
+			  			 	<textarea class="form-control" name="description" placeholder="Give your feedback" rows=10 cols = 50 maxlength="500" minlength="1"></textarea>
 			  			</div>
-			  			<button type="button" class="btn btn-default submit"><i class="fa fa-paper-plane" aria-hidden="true"></i>  Give Feedback</button>
+			  			<div class="form-group">
+       					<small id ='pr' style="color: {{ color  }};">{{ a }}</small>
+        				<br/>
+        				</div>
+        				<div class="form-group">
+			  				<button type="submit" class="btn btn-default submit"><i class="fa fa-paper-plane" aria-hidden="true"></i>Give Feedback</button>
+			  			</div>
 				</form>
 			</div>
 {% endblock %}

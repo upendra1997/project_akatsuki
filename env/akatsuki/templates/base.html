@@ -8,30 +8,40 @@
         <meta name="description" content="Kalyan Yojana">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
         <link rel ="icon" href=""> 
       <link href="{% static 'kalyan/css/bootstrap.min.css' %}" rel="stylesheet">
         <link href="{% static 'kalyan/css/styles.css' %}" rel="stylesheet">
           <!-- <script src="js/bootstrap.min.js"/>
         <script src="js/scripts.js"/> -->
     </head>
-    <body>
+    <style type="text/css" media="screen">
+        @font-face {
+            font-family: Font;
+            src: url({% static 'kalyan/fonts/Roboto-Regular.ttf' %});
+        }
+    </style>
+    <body style="font-family: Font">
         <div class="container">
             <div id="top">
                 <div>
                     <a href="/"><h1 style="font-size: 100px; color: #90caf9;"><span lang="Hindi">कल्याण योजना</span></h1></a>
                 </div>
-                <ul class="nav nav-pills">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/public_views">Public Views</a></li>
-                    <li><a href="/scomplain">Complain | Suggest</a></li>
-                    <li><a href="/register">Register</a></li>
-                    <li><a href="/login">Login</a></li>
-                    <li><a href="/about">About Us</a></li>
-                    {% if "id" in request.session.keys %}
-                    <li><a href="/logout">LogOut</a></li>
-                    {% endif %}
-
-                </ul>
+                <div>
+                    <ul class="nav nav-pills">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/public_views">Public Views</a></li>
+                        <li><a href="/scomplain">Complain | Suggest</a></li>
+                        {% if "id" not in request.session.keys %}
+                        <li><a href="/register">Register</a></li>
+                        <li><a href="/login">Login</a></li>
+                        {% endif %}
+                        <li><a href="/about">About Us</a></li>
+                        {% if "id" in request.session.keys %}
+                        <li><a href="/logout">LogOut</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
             </div>
         
         <div id="middle">
@@ -50,5 +60,12 @@
             <br>
             Give <a href="/feedback">feedback.</a>
          </div>
+         <script src="{% static 'kalyan/js/jquery-1.11.3.min.js' %}"></script>
+         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script src="{% static 'kalyan/js/scripts.js' %}"></script>
+        <script src="{% static 'kalyan/js/location.js' %}" type="text/javascript" charset="utf-8" async defer>
+            {% block location %}
+            {% endblock %}
+        </script>
     </body>
 </html>

@@ -13,6 +13,8 @@ def index(request):
 	return render(request,"kalyan/HE/public/index.html",{})
 
 def register(request):
+	if("id" in request.session.keys()):
+		return HttpResponseRedirect("/")
 	flag = True
 	aadharno = 0
 	error = ''
@@ -31,6 +33,8 @@ def register(request):
 	return render(request,"kalyan/HE/public/register.html")
 
 def accept(request):
+	if("id" in request.session.keys()):
+		return HttpResponseRedirect("/")
 	if('aadhar' not in request.session.keys() and request.method == 'GET'):
 		return HttpResponseRedirect("/")
 	elif('aadhar' in request.session.keys() and request.method == 'GET'):
@@ -75,6 +79,8 @@ def accept(request):
 
 
 def login(request):
+	if("id" in request.session.keys()):
+		return HttpResponseRedirect("/")
 	error=''
 	if request.method=='POST':
 		username = request.POST['username']
@@ -95,26 +101,38 @@ def about(request):
 	return render(request,"kalyan/HE/public/about.html",{})
 
 def feedback(request):
-	# if(request.method=="POST"):
-	# 	if "id" in request.session.keys():
-	# 		fobj=Feedback()
-	# 		feed_text = request.POST['description']
-	# 		obj=Profile.objects.filter(pk=request.session["id"])
-	# 		fobj.uname=obj[0].uname
-	# 		fobj.feed=feed_text
-	# 		fobj.save()
-	# 		qset=Feedback.objects.all()
-	# 		for i in qset:
-	# 			print(i.uname,i.feed,timezone.localtime(i.created_on))
-	# else:
-	# 	return render(request,"kalyan/HE/public/feedback.html",{})
-	# else:
-		return HttpResponseRedirect("register")
+	# database error
+	if("id" not in request.session.keys()):
+		print("-------")
+		return HttpResponseRedirect("/register")
+	if(request.method=="POST"):
+		print("0000000")
+		feed=str(request.POST['description'])
+		if len(re.findall('[a-zA-Z]',feed))==0:
+			a='Please enter some text to give the feedback'
+			return render(request,"kalyan/HE/public/feedback.html",{"a":a,"color":"red"})
+		print("aaaaaa")
+		fobj=Feedback()
+		feed_text = request.POST['description']
+		obj=Profile.objects.filter(pk=request.session["id"])
+		fobj.uname=obj[0].uname
+		fobj.feed=feed_text
+		fobj.save()
+		qset=Feedback.objects.all()
+		print("bbbbb")
+		for i in qset:
+			print(i.uname,i.feed,timezone.localtime(i.created_on))
+		return render(request,"kalyan/HE/public/feedback.html",{a:"Feedback Submitted","color":"green"})
+	else:
+		print("ccccc")
+		return render(request,"kalyan/HE/public/feedback.html",{})
 
 
 ls = []
 def scomplain(request):
 	ls = []
+	sub=''
+	#SUBJECT 
 	cqset=Category.objects.all()
 	for i in cqset:
 		ls.append(i.cname)
@@ -127,6 +145,10 @@ def scomplain(request):
 		suggest_text=str(request.POST['description'])
 		if len(re.findall('[a-zA-Z]',suggest_text))==0:
 			a='Please enter some text to give the suggestion'
+			return render(request,"kalyan/HE/public/scomplain.html",{"a":a,"color":"red","list":ls})
+		if len(re.findall('[a-zA-Z]',str(request.POST['subject'])))==0:
+			a='Write a subject'
+			sub = str(request.POST['subject'])
 			return render(request,"kalyan/HE/public/scomplain.html",{"a":a,"color":"red","list":ls})
 
 	if(request.method == 'POST' and 'complain' in request.POST.keys()):
