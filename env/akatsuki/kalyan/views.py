@@ -13,6 +13,7 @@ from django.db.models import Sum
 aadhar = ''
 bah=''
 def index(request):
+
 	return render(request,"kalyan/HE/public/index.html",{})
 
 def register(request):
@@ -96,6 +97,9 @@ def login(request):
 			if str(password) == str(obj[0].password):
 				request.session["id"]=obj[0].pk
 				error='Login Successful'
+				if obj[0].user_type:
+					request.session["gov"]=True
+
 			else:
 				error='Wrong Password'
 	return render(request,"kalyan/HE/public/login.html",{"error":error})
@@ -121,11 +125,7 @@ def feedback(request):
 		fobj.uname=obj[0].uname
 		fobj.feed=feed_text
 		fobj.save()
-		qset=Feedback.objects.all()
-		print("bbbbb")
-		for i in qset:
-			print(i.uname,i.feed,timezone.localtime(i.created_on))
-		return render(request,"kalyan/HE/public/feedback.html",{a:"Feedback Submitted","color":"green"})
+		return render(request,"kalyan/HE/public/feedback.html",{"a":"Feedback Submitted","color":"green"})
 	else:
 		print("ccccc")
 		return render(request,"kalyan/HE/public/feedback.html",{})
@@ -162,6 +162,7 @@ def scomplain(request):
 		complainfor=request.POST["dropdown"]
 		cobj=Complains()
 		cobj.uname=cur_uname
+		cobj.subject=request.POST["subject"]
 		cobj.ucomplain=complain_text
 		cobj.complain_for=complainfor
 		cobj.save()
@@ -182,6 +183,7 @@ def scomplain(request):
 		suggestfor=request.POST["dropdown"]
 		sobj=Suggestions()
 		sobj.uname=cur_uname
+		sobj.subject=request.POST["subject"]
 
 		sobj.usuggestion=suggest_text
 		sobj.suggest_for=suggestfor
@@ -201,12 +203,13 @@ def scomplain(request):
 
 
 def public_views(request,vtype=None,ctype=None):
-
+	cat=ctype.replace("_"," ")
 	if vtype=='complains':
-		if ctype=="all":
+		if cat=="all":
 			comqset_list=Complains.objects.all()
 		else:
-			comqset_list=Complains.objects.filter(complain_for=ctype)
+			comqset_list=Complains.objects.filter(complain_for=cat)
+
 		
 
 		topic="Complains"
@@ -215,11 +218,10 @@ def public_views(request,vtype=None,ctype=None):
 		val='suggestions'
 		
 	elif vtype=='suggestions':
-		if ctype=="all":
+		if cat=="all":
 			comqset_list=Suggestions.objects.all()
 		else:
-			comqset_list=Suggestions.objects.filter(suggest_for=ctype)
-		
+			comqset_list=Suggestions.objects.filter(suggest_for=cat)
 
 
 		topic="Suggestions"
@@ -252,7 +254,9 @@ def public_views(request,vtype=None,ctype=None):
 				"val":val,
 				"all_sug":all_sug,
 				"all_comp":all_comp,
-				"cval":ctype
+				"cval":ctype,
+				"antival":vtype,
+				"cat":cat
 			}
 	return render(request,"kalyan/HE/public/public_views.html",context)
 
@@ -267,10 +271,21 @@ def public_view_detail(request,vtype=None,id=None):
 		instance=get_object_or_404(Suggestions,id=id)
 		refer="Suggestion for"
 
+	obj=Profile.objects.filter(pk=request.session["id"])
+	utype=obj[0].user_type
+	if utype==True:
+		pobj=Profile.objects.filter(uname=instance.uname)
+		
+
+	else:
+		pobj=''
+		
 
 	context={
 				"instance":instance,
-				"refer":refer
+				"refer":refer,
+				"pobj":pobj,
+				"flag":utype
 
 			}	
 	return render(request,"kalyan/HE/public/public_view_detail.html",context)

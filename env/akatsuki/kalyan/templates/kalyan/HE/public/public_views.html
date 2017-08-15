@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load tz %}
+{% load app_filters %}
     {% block title %}
     	Public Views
     {% endblock %}
@@ -17,7 +18,7 @@
 
 <div class="container-fluid main-container">
 <div class="col-md-8 ">
-<h2 class="lat-post-heading"> <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> Public {{ topic }} </h2><hr class="myhr">
+<h2 class="lat-post-heading"> <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> Public {{ topic }} {% ifnotequal cat "all" %} | {{ cat }} {% endifnotequal %}</h2><hr class="myhr">
 
 
 {% for obj in comqset %}
@@ -60,12 +61,13 @@
 </div>
 
 <br/>
+
 <div>
 
 <h2 class="other-main-head" style="margin-bottom: 30px;">Filter By Category</h2>
 
 <div class="clearfix">
-<a href="#"> All </h5></a>
+<a href="{% url 'kalyan:kalyan_public_views' vtype=antival ctype='all' %}"> All </h5></a>
 <p class=""><small>{{ all_comp }} Complain{{ all_comp|pluralize }} | {{ all_sug }} Suggestion{{ all_sug|pluralize }} </small></p>
 </div>
 <hr>
@@ -74,7 +76,7 @@
 
 {% for obj in catqset %}
 <div class="clearfix">
-<a href="{{ obj.get_absolute_url }}"> {{ obj.cname }}  </a>
+<a href="{% url 'kalyan:kalyan_public_views' vtype=antival ctype=obj.cname|replace_space %}"> {{ obj.cname }}  </a>
 <p class=""><small>{{ obj.num_complains }} Complain{{ obj.num_complains|pluralize }} | {{ obj.num_suggestions }} Suggestion{{ obj.num_suggestions|pluralize }} </small></p>
 </div>
 <hr>
