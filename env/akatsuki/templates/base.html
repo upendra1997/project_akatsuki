@@ -72,6 +72,7 @@
         <script src="{% static 'kalyan/js/scripts.js' %}"></script>
         <script src="{% static 'kalyan/js/location.js' %}" type="text/javascript" charset="utf-8" async defer>
             {% block location %}
+                getLocation();
             {% endblock %}
         </script>
 
