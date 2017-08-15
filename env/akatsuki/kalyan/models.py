@@ -7,7 +7,7 @@ class Profile(models.Model):
     bcardid=models.CharField(max_length=50,unique=True,verbose_name="ID")
     uname = models.CharField(max_length=50,unique=True,verbose_name="User Name")
     password = models.CharField(max_length=50)
-    user_type=models.CharField(max_length=5,default='P',verbose_name="Government Official")
+    user_type=models.BooleanField(default=False,verbose_name="Government Official")
     # A -> admin G -> govt_official P -> Public 
     # can you please make this boolean since we don't need admin
     
@@ -20,7 +20,7 @@ class Feedback(models.Model):
 	uname = models.CharField(max_length=50,verbose_name="User Name")
 	feed  = models.TextField(max_length=500,verbose_name="Feedback")
 	created_on = models.DateTimeField(auto_now_add=True,verbose_name="Feedback")
-	many_profile = models.ForeignKey(Profile)
+	# many_profile = models.ForeignKey(Profile)
 
 
 
@@ -28,11 +28,12 @@ class Category(models.Model):
 	cname = models.CharField(max_length=50,unique=True,verbose_name="Category")
 	num_suggestions=models.IntegerField(default=0)
 	num_complains=models.IntegerField(default=0)
-	def get_absolute_url(self):
-		return reverse("kalyan:kalyan_public_views",kwargs={"vtype":'complains',"ctype":self.cname})
 	class Meta:
 		verbose_name = "Category"
 		verbose_name_plural = "Categories"
+	# def get_absolute_url(self):
+	# 	return reverse("kalyan:kalyan_public_views",kwargs={"vtype":'complains',"ctype":self.cname.replace(" ","_")})
+
 
 	
 class Suggestions(models.Model):

@@ -16,8 +16,8 @@
 
 {% block content %}
 
-<div class="main-header">
-<div class="jumbotron" style="padding-left: 50px;">
+<div class="">
+<div class="jumbotron "  style="padding-left: 50px;" >
 <h1 >{{ instance.subject }} </h1>
 <p >{{ refer }} : {{ instance.complain_for }} {{ instance.suggest_for }} | <small>{{ instance.created_on|localtime|timesince }} ago</small></p>
 <p>
@@ -29,17 +29,61 @@
 </div>
 <p></p>
 </div>
-</div>
 
 
 
 
-<div ><p style="text-align: justify;"><span style="font-family: 'Open Sans', sans-serif, helvetica, arial; font-size: 13pt;">
+<div class="col-md-8">
+<p style="text-align: justify;"><span style="font-family: 'Open Sans', sans-serif, helvetica, arial; font-size: 13pt;">
 	
 
 {{ instance.ucomplain|linebreaks }} {{ instance.usuggestion|linebreaks }}
 
 </span></p>
+
+</div>
+</div>
+
+{% if flag %}
+<div class="col-md-4 side-pannel">
+
+
+<h2 class="sidebar-module" style="margin-bottom: 30px;">Personal Details</h2>
+
+<hr>
+
+
+
+{% for user in pobj %}
+<div class="clearfix">
+	User name : {{ user.uname }}  <hr>
+<p class=""><small>
+	
+	Bahmashah Card Id : {{ user.bcardid }}
+	<hr>
+	Account created On : {{ user.created_on }}
+	<hr>
+	Last Logged into account on : {{ user.last_logged_in }}
+
+
+</small></p>
+</div>
+<hr>
+
+{% endfor %}
+
+
+
+</div>
+
+{% endif %}
+
+
+
+</div>
+
+
+</div>
 
 
 

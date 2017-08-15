@@ -36,8 +36,10 @@
                 <div>
                     <ul class="nav nav-pills">
                         <li><a href="/">Home</a></li>
-                        <li><a href="/public_views">Public Views</a></li>
+                        <li><a href="/public_views/complains/all">Public Views</a></li>
+                        {% if "gov" not in request.session.keys %}
                         <li><a href="/scomplain">Complain | Suggest</a></li>
+                        {% endif %}
                         {% if "id" not in request.session.keys %}
                         <li><a href="/register">Register</a></li>
                         <li><a href="/login">Login</a></li>

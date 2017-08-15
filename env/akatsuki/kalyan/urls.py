@@ -16,4 +16,7 @@ urlpatterns = [
  	url(r'^view_detail/(?P<vtype>[\w\-]+)/(?P<id>\d+)/$', views.public_view_detail, name='kalyan_public_view_detail'),
 
 ]
+
 admin.site.site_header = 'Kalyan Yojana'
+admin.site.site_title = 'Kalyan Yojana'
+
