@@ -10,5 +10,7 @@ urlpatterns = [
  	url(r'^feedback$', views.feedback, name='kalyan_feedback'),
  	url(r'^scomplain$', views.scomplain, name='kalyan_scomplain'),
  	url(r'^logout$', views.logout, name='kalyan_logout'),
- 	url(r'^public_views$', views.public_views, name='kalyan_public_views'),
+ 	url(r'^public_views/(?P<vtype>[\w\-]+)/(?P<ctype>[\w\-]+)/$', views.public_views, name='kalyan_public_views'),
+ 	url(r'^view_detail/(?P<vtype>[\w\-]+)/(?P<id>\d+)/$', views.public_view_detail, name='kalyan_public_view_detail'),
+ 		
 ]

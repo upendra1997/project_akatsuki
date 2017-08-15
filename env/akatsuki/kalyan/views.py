@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
@@ -6,6 +6,9 @@ from .models import *
 from random import randint
 from django.utils import timezone
 import re
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Sum
+
 
 aadhar = ''
 bah=''
@@ -156,11 +159,18 @@ def scomplain(request):
 		complain_text=suggest_text
 		obj=Profile.objects.filter(pk=request.session["id"])
 		cur_uname=obj[0].uname
+		complainfor=request.POST["dropdown"]
 		cobj=Complains()
 		cobj.uname=cur_uname
 		cobj.ucomplain=complain_text
-		cobj.complain_for=request.POST["dropdown"]
+		cobj.complain_for=complainfor
 		cobj.save()
+		obj = Category.objects.get(cname=complainfor)
+		obj.num_complains=obj.num_complains+1
+		obj.save()
+
+
+
 		a = 'complain filed'
 		return render(request,"kalyan/HE/public/scomplain.html",{"a":a,"color":"green","list":ls})
 	
@@ -169,11 +179,18 @@ def scomplain(request):
 		suggest_text=str(request.POST['description'])
 		obj=Profile.objects.filter(pk=request.session["id"])
 		cur_uname=obj[0].uname
+		suggestfor=request.POST["dropdown"]
 		sobj=Suggestions()
 		sobj.uname=cur_uname
+
 		sobj.usuggestion=suggest_text
-		sobj.suggest_for=request.POST["dropdown"]
+		sobj.suggest_for=suggestfor
 		sobj.save()
+		obj = Category.objects.get(cname=suggestfor)
+		obj.num_suggestions=obj.num_suggestions+1
+		obj.save()
+
+
 		a = 'suggestion registered'
 		return render(request,"kalyan/HE/public/scomplain.html",{"a":a,"color":"green","list":ls})
 	
@@ -183,12 +200,87 @@ def scomplain(request):
 
 
 
-def public_views(request):
-	ls=[]
-	qset=Complains.objects.all()
-	for obj in qset:
-		ls.append([obj.uname,obj.complain_for,obj.ucomplain,timezone.localtime(obj.created_on)])
-	return render(request,"kalyan/HE/public/public_views.html",{"ls":ls})
+def public_views(request,vtype=None,ctype=None):
+
+	if vtype=='complains':
+		if ctype=="all":
+			comqset_list=Complains.objects.all()
+		else:
+			comqset_list=Complains.objects.filter(complain_for=ctype)
+		
+
+		topic="Complains"
+		refer="Filed against"
+		side_topic="Suggestions"
+		val='suggestions'
+		
+	elif vtype=='suggestions':
+		if ctype=="all":
+			comqset_list=Suggestions.objects.all()
+		else:
+			comqset_list=Suggestions.objects.filter(suggest_for=ctype)
+		
+
+
+		topic="Suggestions"
+		refer="Suggestion for"
+		side_topic="Complains"
+		val='complains'
+	
+	
+	
+
+
+	
+	paginator = Paginator(comqset_list, 5) # Show 25 contacts per page
+
+	page = request.GET.get('page')
+	try:
+		comqset = paginator.page(page)
+	except PageNotAnInteger:
+		# If page is not an integer, deliver first page.
+		comqset = paginator.page(1)
+	except EmptyPage:
+		# If page is out of range (e.g. 9999), deliver last page of results.
+		comqset = paginator.page(paginator.num_pages)
+
+	catqset=Category.objects.all()
+	all_sug=Category.objects.all().aggregate(Sum('num_suggestions')).get('num_suggestions__sum', 0)
+
+	all_comp=Category.objects.all().aggregate(Sum('num_complains')).get('num_complains__sum', 0)
+
+	
+	context={	"comqset":comqset,
+				"catqset":catqset,
+				"refer":refer,
+				"topic":topic,
+				"side_topic":side_topic,
+				"val":val,
+				"all_sug":all_sug,
+				"all_comp":all_comp,
+				"cval":ctype
+			}
+	return render(request,"kalyan/HE/public/public_views.html",context)
+
+
+
+def public_view_detail(request,vtype=None,id=None):
+	if vtype=='complains':
+		instance=get_object_or_404(Complains,id=id)
+		refer="Filed against"
+	
+	elif vtype=='suggestions':
+		instance=get_object_or_404(Suggestions,id=id)
+		refer="Suggestion for"
+
+
+	context={
+				"instance":instance,
+				"refer":refer
+
+			}	
+	return render(request,"kalyan/HE/public/public_view_detail.html",context)
+
 
 
 

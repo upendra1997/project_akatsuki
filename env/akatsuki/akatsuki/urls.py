@@ -18,6 +18,6 @@ from django.conf.urls import url, include
 from django.contrib import admin
 
 urlpatterns = [
-    url(r'^', include('kalyan.urls')),
+    url(r'^', include('kalyan.urls',namespace='kalyan')),
     url(r'^admin/', admin.site.urls),
 ]
