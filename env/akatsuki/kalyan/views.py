@@ -97,6 +97,10 @@ def login(request):
 			if str(password) == str(obj[0].password):
 				request.session["id"]=obj[0].pk
 				error='Login Successful'
+				if(request.POST["location"]==''):
+					request.session["location"]="Location not known"
+				else:
+					request.session["location"]=request.POST["location"]
 				if obj[0].user_type:
 					request.session["gov"]=True
 
@@ -295,4 +299,6 @@ def public_view_detail(request,vtype=None,id=None):
 
 def logout(request):
 	request.session.pop("id",None)
+	request.session.pop("gov",None)
+	request.session.pop("location",None)
 	return render(request,"kalyan/HE/public/index.html",{})

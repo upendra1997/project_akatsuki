@@ -8,7 +8,7 @@
         	<div id = "page">
         		<form action="login" method="post" name="login">
         		{% csrf_token %}
-        			<input type="hidden" name="location" value="">
+        			<input type="hidden" name="location" id="loc" value="">
 	        		<fieldset>
 				        <div class="form-group">
 				            <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text"/>
@@ -42,5 +42,5 @@
 {% endblock %}
 
 {% block location %}
-	pos();
+	getLocation();
 {% endblock %}
