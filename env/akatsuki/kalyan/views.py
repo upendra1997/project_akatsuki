@@ -226,12 +226,7 @@ def public_views(request,vtype=None,ctype=None):
 		refer="Suggestion for"
 		side_topic="Complains"
 		val='complains'
-	
-	
-	
-
-
-	
+		
 	paginator = Paginator(comqset_list, 5) # Show 25 contacts per page
 
 	page = request.GET.get('page')
@@ -249,7 +244,6 @@ def public_views(request,vtype=None,ctype=None):
 
 	all_comp=Category.objects.all().aggregate(Sum('num_complains')).get('num_complains__sum', 0)
 
-	
 	context={	"comqset":comqset,
 				"catqset":catqset,
 				"refer":refer,
