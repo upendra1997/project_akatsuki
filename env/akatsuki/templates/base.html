@@ -8,15 +8,12 @@
         <meta name="description" content="Kalyan Yojana">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<<<<<<< HEAD
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-=======
         
         {% block include_css %}
 
         {% endblock %}
 
->>>>>>> manoj
         <link rel ="icon" href=""> 
       <link href="{% static 'kalyan/css/bootstrap.min.css' %}" rel="stylesheet">
         <link href="{% static 'kalyan/css/styles.css' %}" rel="stylesheet">
@@ -35,7 +32,7 @@
                 <div>
                     <a href="/"><h1 style="font-size: 100px; color: #90caf9;"><span lang="Hindi">कल्याण योजना</span></h1></a>
                 </div>
-<<<<<<< HEAD
+
                 <div>
                     <ul class="nav nav-pills">
                         <li><a href="/">Home</a></li>
@@ -51,20 +48,7 @@
                         {% endif %}
                     </ul>
                 </div>
-=======
-                <ul class="nav nav-pills">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/public_views/complains/all">Public Views</a></li>
-                    <li><a href="/scomplain">Complain | Suggest</a></li>
-                    <li><a href="/register">Register</a></li>
-                    <li><a href="/login">Login</a></li>
-                    <li><a href="/about">About Us</a></li>
-                    {% if "id" in request.session.keys %}
-                    <li><a href="/logout">LogOut</a></li>
-                    {% endif %}
 
-                </ul>
->>>>>>> manoj
             </div>
         
         <div id="middle">
@@ -83,7 +67,6 @@
             <br>
             Give <a href="/feedback">feedback.</a>
          </div>
-<<<<<<< HEAD
          <script src="{% static 'kalyan/js/jquery-1.11.3.min.js' %}"></script>
          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <script src="{% static 'kalyan/js/scripts.js' %}"></script>
@@ -91,7 +74,7 @@
             {% block location %}
             {% endblock %}
         </script>
-=======
+
     
     {% block includes %}
 
@@ -99,6 +82,5 @@
 
     {% endblock %}
 
->>>>>>> manoj
     </body>
 </html>
