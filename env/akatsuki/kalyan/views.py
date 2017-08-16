@@ -295,4 +295,6 @@ def public_view_detail(request,vtype=None,id=None):
 
 def logout(request):
 	request.session.pop("id",None)
+	request.session.pop("gov",None)
+	
 	return render(request,"kalyan/HE/public/index.html",{})
