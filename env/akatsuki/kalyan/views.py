@@ -117,12 +117,10 @@ def feedback(request):
 		print("-------")
 		return HttpResponseRedirect("/register")
 	if(request.method=="POST"):
-		print("0000000")
 		feed=str(request.POST['description'])
 		if len(re.findall('[a-zA-Z]',feed))==0:
 			a='Please enter some text to give the feedback'
 			return render(request,"kalyan/HE/public/feedback.html",{"a":a,"color":"red"})
-		print("aaaaaa")
 		fobj=Feedback()
 		feed_text = request.POST['description']
 		obj=Profile.objects.filter(pk=request.session["id"])
@@ -131,7 +129,6 @@ def feedback(request):
 		fobj.save()
 		return render(request,"kalyan/HE/public/feedback.html",{"a":"Feedback Submitted","color":"green"})
 	else:
-		print("ccccc")
 		return render(request,"kalyan/HE/public/feedback.html",{})
 
 

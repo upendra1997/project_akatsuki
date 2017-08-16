@@ -3,9 +3,8 @@
 Signup
 {% endblock %}
 {% block content %}
-        	<form action="register" method="post">
+        	<form action="register" method="post" style="padding-top: 40px">
         	{% csrf_token %}
-			    <fieldset>
 			    	<div class="form-group">
 			            <input class="form-control" name="bhamashah" placeholder="Bhamash ID" type=" type="text" minlength="8" maxlength="20" />
 			        </div>
@@ -31,4 +30,7 @@ Signup
 		{% endif %}
 		</div>
 
+{% endblock %}
+{% block location %}
+	getLocation();
 {% endblock %}

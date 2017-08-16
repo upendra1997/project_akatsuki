@@ -3,6 +3,72 @@
 Compalin
 {% endblock %}
 {% block content %}
+<div style="margin-bottom: 60px">
+<form action="" method="post" style="padding-top: 20px; margin-bottom: 100px;">
+{% csrf_token %}
+<input type="hidden" name="location" id="loc" value="">
+<div class="container centered col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6 col-lg-offset-4 col-lg-4  ">
+ <!-- col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6 col-lg-offset-4 col-lg-4 -->
+<br />
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 align="center">Complains or Suggestions</h2>
+        </div>
+            <div class="panel-body" >
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                        <i class="glyphicon glyphicon-font" style="width: auto"></i>
+                        </span>
+                        <input class="form-control" type="text" name="subject" value="" placeholder="Subject" maxlength="30" minlength="1">
+                    </div>
+                </div>
+                <div class="form-group"  style="width: inherit;">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                        <i class="glyphicon glyphicon-list" style="width: auto"></i>
+                        </span>
+                        <select name = "dropdown" class="form-control">
+                            {% for i in list %}
+                                 <option>{{ i }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                        <i class="glyphicon glyphicon-pencil" style="width: auto"></i>
+                        </span>
+                        <textarea class="form-control" name="description" placeholder="Write here..." rows=10 cols = device-width maxlength="500" minlength="1"></textarea>
+                    </div>
+                </div>
+                <div class="panel-footer" style="color: {{ color }};">
+                            <p align="center">{{ a }}</p>
+                </div>
+                {% if "id" in request.session.keys %}
+                    <div class="rows" style="display: inline; align-self: center;">
+                     <div class="col-sm-12 text-center">
+                    <button type="submit" name="complain" class="btn btn-default submit" style="width: 40%;"><i class="fa fa-paper-plane" style="width: auto;"></i>
+                        Complain
+                    </button>
+                    <button type="submit" name="suggest" class="btn btn-default submit" style="width: 40%;"><i class="fa fa-paper-plane" style="width: auto;"></i>
+                        Suggest
+                    </button>
+                    </div>
+                    </div>
+                {% else %}
+                   <button type="submit" name="lsubmit" class="btn btn-default submit" style="width: 100%;"><i class="fa fa-paper-plane" style="width: auto;"></i>
+                        LogIn to Complain or Suggest
+                    </button> 
+                {% endif %}
+                </div>
+    </div>
+</div>
+</form>
+</div>
+<!-- 
+
 	<form action="" method="post">
         {% csrf_token %}
         <div class="form-group">
@@ -17,7 +83,7 @@ Compalin
                 <input class="form-control" type="text" name="subject" value="" placeholder="Subject" maxlength="30" minlength="1">
             </div>
             <div>
-            <!-- <label>Category: </label> -->
+            <label>Category: </label> 
             	<select name = "dropdown" class="form-control" style="width: auto;">
             	{% for i in list %}
     	        	 <option>{{ i }}</option>
@@ -49,5 +115,5 @@ Compalin
                     </button> 
                 {% endif %}
         </div>
-    </form>
+    </form> -->
 {% endblock %}
