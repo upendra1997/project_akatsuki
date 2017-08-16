@@ -77,7 +77,8 @@ def accept(request):
 				# for i in qset:
 				# 	print(i.uname,i.password,i.bcardid,timezone.localtime(i.created_on),timezone.localtime(i.last_logged_in))
 				request.session["id"]=obj[0].pk
-				return render(request,"kalyan/HE/public/accept.html",{"error":"Registration Successful"})
+				return HttpResponseRedirect("/login")
+				# return render(request,"kalyan/HE/public/accept.html",{"error":"Registration Successful"})
 		else:
 			return render(request,"kalyan/HE/public/accept.html",{"error":error})
 
@@ -103,6 +104,7 @@ def login(request):
 					request.session["location"]=request.POST["location"]
 				if obj[0].user_type:
 					request.session["gov"]=True
+				return HttpResponseRedirect("/")
 
 			else:
 				error='Wrong Password'
@@ -166,6 +168,7 @@ def scomplain(request):
 		cobj.subject=request.POST["subject"]
 		cobj.ucomplain=complain_text
 		cobj.complain_for=complainfor
+		cobj.ulocation=request.session["location"]
 		cobj.save()
 		obj = Category.objects.get(cname=complainfor)
 		obj.num_complains=obj.num_complains+1
@@ -174,7 +177,8 @@ def scomplain(request):
 
 
 		a = 'complain filed'
-		return render(request,"kalyan/HE/public/scomplain.html",{"a":a,"color":"green","list":ls})
+		return HttpResponseRedirect("/public_views/complains/all")
+		# return render(request,"kalyan/HE/public/scomplain.html",{"a":a,"color":"green","list":ls})
 	
 	elif(request.method == 'POST' and 'suggest' in request.POST.keys()):
 		print("write database into suggest field")
@@ -195,7 +199,9 @@ def scomplain(request):
 
 
 		a = 'suggestion registered'
-		return render(request,"kalyan/HE/public/scomplain.html",{"a":a,"color":"green","list":ls})
+		return HttpResponseRedirect("/public_views/suggestions/all")
+		
+		# return render(request,"kalyan/HE/public/scomplain.html",{"a":a,"color":"green","list":ls})
 	
 	else:
 		return render(request,"kalyan/HE/public/scomplain.html",{"list":ls,"a":"Don't disclose your identity when writing into the box.","color":"purple"})
@@ -271,10 +277,12 @@ def public_view_detail(request,vtype=None,id=None):
 	if vtype=='complains':
 		instance=get_object_or_404(Complains,id=id)
 		refer="Filed against"
+		cvar="Complain filing location :"
 	
 	elif vtype=='suggestions':
 		instance=get_object_or_404(Suggestions,id=id)
 		refer="Suggestion for"
+		cvar=""
 
 	obj=Profile.objects.filter(pk=request.session["id"])
 	utype=obj[0].user_type
@@ -290,7 +298,8 @@ def public_view_detail(request,vtype=None,id=None):
 				"instance":instance,
 				"refer":refer,
 				"pobj":pobj,
-				"flag":utype
+				"flag":utype,
+				"cvar":cvar
 
 			}	
 	return render(request,"kalyan/HE/public/public_view_detail.html",context)

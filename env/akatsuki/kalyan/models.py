@@ -62,6 +62,7 @@ class Complains(models.Model):
 	subject=models.CharField(max_length=100,default='Complain',verbose_name="Subject")
 	ucomplain = models.TextField(max_length=500,verbose_name="Complain")
 	created_on = models.DateTimeField(auto_now_add=True,verbose_name="Created On")
+	ulocation=models.CharField(max_length=200,default='Location Not known')
 	# many_profile = models.ForeignKey(Profile)
 	# many_category = models.ForeignKey(Category)
 	
