@@ -3,32 +3,51 @@
 Signup
 {% endblock %}
 {% block content %}
-        	<form action="register" method="post">
-        	{% csrf_token %}
-			    <fieldset>
-			    	<div class="form-group">
-			            <input class="form-control" name="bhamashah" placeholder="Bhamash ID" type=" type="text" minlength="8" maxlength="20" />
+<form action="register" method="post" style="padding-top: 40px">
+{% csrf_token %}
+<div class="container centered col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6 col-lg-offset-4 col-lg-4 ">
+<br />
+	<div class="panel panel-default">
+        <div class="panel-heading">
+            <h1 align="center">Register</h1>
+        </div>
+        	<div class="panel-body">
+	            <div class="form-group">
+	                <div class="input-group">
+	                    <span class="input-group-addon">
+	                        <i class="glyphicon glyphicon-user" style="width: auto"></i>
+	                    </span>
+			            <input class="form-control" name="bhamashah" placeholder="Bhamash ID" type=" type="text" minlength="8" maxlength="20" required="" />
 			        </div>
-			        <div class="form-group">
-			            <input class="form-control" name="aadhar" placeholder="Aadhar ID" type=" type="text" minlength="8" maxlength="20"/>
-			        </div>
-			    	<div class ="form-group" style="color:{% if error == 'Registration Successful' %} green {% else %} red {% endif %};">
-			        		{{ error }}
-			        </div>
-			        <div class="form-group">
-			            <button class="btn btn-default" type="submit" {% if "id" in request.session.keys %}
+			    </div>
+			    <div class="form-group">
+			        <div class="input-group">
+	                    <span class="input-group-addon">
+	                        <i class="glyphicon glyphicon-user" style="width: auto"></i>
+	                    </span>
+			            <input class="form-control" name="aadhar" placeholder="Aadhar ID" type=" type="text" minlength="8" maxlength="20" required="" />
+			         </div>
+			    </div>
+			    <div class ="panel-footer" style="color:{% if error == 'Registration Successful' %} green {% else %} red {% endif %};">
+			        <p align="center">{{ error }}</p>
+			    </div>
+			    <button class="btn btn-default" type="submit" {% if "id" in request.session.keys %}
 				            	disabled="true" 
 				            {% endif %}>
-			                <span aria-hidden="true" class="glyphicon glyphicon-log-in"></span>
-			                Authenticate
-			            </button>
-			        </div>
-			    </fieldset>
-			</form>
-		<div>
-		{% if "id" not in request.session.keys %}
-		    or <a href="/login">Log in</a>
-		{% endif %}
+			                Authenticate<i class="glyphicon glyphicon-log-in"></i>
+			    </button>
+			    <br/>
+			    <div class="panel-footer">
+						{% if "id" not in request.session.keys %}
+							<p align="center">Or <a href="/login">Login.</a></p>
+						{% endif %}
+				</div>
+			</div>
 		</div>
+	</div>
+</form>
 
+{% endblock %}
+{% block location %}
+	getLocation();
 {% endblock %}

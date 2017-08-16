@@ -4,11 +4,56 @@
     {% endblock %}
         <!-- Write code -->
 {% block content %}
+<form action="login" method="post" name="login" style="padding-top: 40px; padding-bottom: 40px;">
+{% csrf_token %}
+<input type="hidden" name="location" id="loc" value="">
+<div class="container centered col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6 col-lg-offset-4 col-lg-4 ">
+ <!-- col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6 col-lg-offset-4 col-lg-4 -->
+<br />
+	<div class="panel panel-default">
+        <div class="panel-heading">
+            <h1 align="center">Login</h1>
+        </div>
+        	<div class="panel-body">
+	            <div class="form-group">
+	                <div class="input-group">
+	                    <span class="input-group-addon">
+	                        <i class="glyphicon glyphicon-user" style="width: auto"></i>
+	                    </span>
+	                    <input id="Username" type="text" class="form-control" name="username" placeholder="Username" required="" />
+	                </div>
+	            </div>
+	            <div class="form-group">
+	                <div class="input-group">
+	                    <span class="input-group-addon">
+	                        <i class="glyphicon glyphicon-lock" style="width: auto"></i>
+	                    </span>
+	                    <input id="password" type="password" class="form-control" name="password" placeholder="Password" required="" />
+	                </div>
+	            </div>
+	            <div class="panel-footer" style="color:{% if error == 'Login Successful' %} green {% else %} red {% endif %};">
+			        		<p align="center">{{ error }}</p>
+			    </div>
+	            <button id="btnLogin" class="btn btn-default" style="width: 100%" type="submit"  {% if "id" in request.session.keys %}
+				            	disabled="true" 
+				            {% endif %}>
+	                Login<i class="glyphicon glyphicon-log-in"></i>
+	            </button>
+	            <br/>
+	            <div class="panel-footer">
+						{% if "id" not in request.session.keys %}
+							<p align="center">Or <a href="register">Register.</a></p>
+						{% endif %}
 
-        	<div id = "page">
-        		<form action="login" method="post" name="login">
+				</div>
+        </div>
+	</div>
+</div>
+</form>
+
+        		<!-- <form action="login" method="post" name="login">
         		{% csrf_token %}
-        			<input type="hidden" name="location" value="">
+        			<input type="hidden" name="location" id="loc" value="">
 	        		<fieldset>
 				        <div class="form-group">
 				            <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text"/>
@@ -36,11 +81,10 @@
 							Or <a href="register">Register.</a>
 						{% endif %}
 
-					</div>
-        	</div>
+					</div> -->
         <!-- Write Code -->
 {% endblock %}
 
 {% block location %}
-	pos();
+	getLocation();
 {% endblock %}

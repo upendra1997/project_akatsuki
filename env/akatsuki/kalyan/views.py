@@ -97,6 +97,10 @@ def login(request):
 			if str(password) == str(obj[0].password):
 				request.session["id"]=obj[0].pk
 				error='Login Successful'
+				if(request.POST["location"]==''):
+					request.session["location"]="Location not known"
+				else:
+					request.session["location"]=request.POST["location"]
 				if obj[0].user_type:
 					request.session["gov"]=True
 
@@ -113,12 +117,10 @@ def feedback(request):
 		print("-------")
 		return HttpResponseRedirect("/register")
 	if(request.method=="POST"):
-		print("0000000")
 		feed=str(request.POST['description'])
 		if len(re.findall('[a-zA-Z]',feed))==0:
 			a='Please enter some text to give the feedback'
 			return render(request,"kalyan/HE/public/feedback.html",{"a":a,"color":"red"})
-		print("aaaaaa")
 		fobj=Feedback()
 		feed_text = request.POST['description']
 		obj=Profile.objects.filter(pk=request.session["id"])
@@ -127,7 +129,6 @@ def feedback(request):
 		fobj.save()
 		return render(request,"kalyan/HE/public/feedback.html",{"a":"Feedback Submitted","color":"green"})
 	else:
-		print("ccccc")
 		return render(request,"kalyan/HE/public/feedback.html",{})
 
 
@@ -263,6 +264,10 @@ def public_views(request,vtype=None,ctype=None):
 
 
 def public_view_detail(request,vtype=None,id=None):
+	if("id" not in request.session.keys()):
+		return HttpResponseRedirect("/public_views/complains/all/")
+
+
 	if vtype=='complains':
 		instance=get_object_or_404(Complains,id=id)
 		refer="Filed against"
@@ -296,5 +301,5 @@ def public_view_detail(request,vtype=None,id=None):
 def logout(request):
 	request.session.pop("id",None)
 	request.session.pop("gov",None)
-	
+	request.session.pop("location",None)
 	return render(request,"kalyan/HE/public/index.html",{})

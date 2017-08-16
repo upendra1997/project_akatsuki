@@ -1,5 +1,7 @@
 from django.conf.urls import url
 from kalyan import views
+from django.contrib import admin
+
 
 urlpatterns = [
     url(r'^$', views.index, name='kalyan_index'),
@@ -14,3 +16,7 @@ urlpatterns = [
  	url(r'^view_detail/(?P<vtype>[\w\-]+)/(?P<id>\d+)/$', views.public_view_detail, name='kalyan_public_view_detail'),
 
 ]
+
+admin.site.site_header = 'Kalyan Yojana'
+admin.site.site_title = 'Kalyan Yojana'
+
