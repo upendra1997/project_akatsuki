@@ -45,12 +45,12 @@ Register
 	            <button id="btnLogin" class="btn btn-default" style="width: 100%" type="submit"  {% if "id" in request.session.keys %}
 				            	disabled="true" 
 				            {% endif %}>
-	                Login<i class="glyphicon glyphicon-log-in"></i>
+	                Register<i class="glyphicon glyphicon-log-in"></i>
 	            </button>
-	            <br>
+	            <br/>
 	            <div class="panel-footer">
 						{% if "id" not in request.session.keys %}
-							<p align="center">Or <a href="/login">Register</a>
+							<p align="center">Or <a href="/login">Login</a>
 						{% endif %}
 
 				</div>
