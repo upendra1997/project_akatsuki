@@ -264,6 +264,10 @@ def public_views(request,vtype=None,ctype=None):
 
 
 def public_view_detail(request,vtype=None,id=None):
+	if("id" not in request.session.keys()):
+		return HttpResponseRedirect("/public_views/complains/all/")
+
+
 	if vtype=='complains':
 		instance=get_object_or_404(Complains,id=id)
 		refer="Filed against"
