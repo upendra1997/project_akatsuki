@@ -16,12 +16,11 @@
 <div class="container"  style="margin-top: 20px; margin-bottom: 80px">
 <div class="row">
     <!-- <div class="col-md-1"></div> -->
-    <div class="col-md-7">
+    <div class="col-md-9">
         
         <h2 class="lat-post-heading">
         <!-- <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> -->
-        <u>
-        Public {{ topic }} {% ifnotequal cat "all" %}|{{ cat }} {% endifnotequal %} </u>| <a href='{% url "kalyan:kalyan_public_views" vtype=val ctype=cval %}'>Check Public {{ side_topic }}</a>
+        Public {{ topic }} {% ifnotequal cat "all" %}| {{ cat }} {% endifnotequal %} | <a href='{% url "kalyan:kalyan_public_views" vtype=val ctype=cval %}'> Check Public {{ side_topic }}</a>
         </h2>
         
 
@@ -71,7 +70,6 @@
         {% endfor %}
     </div>
 </div>
-<div class="col-md-1"></div>
 <div class="col-md-1"></div>
     <div class="col-md-3">
 
