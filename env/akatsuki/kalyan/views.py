@@ -313,7 +313,6 @@ def public_view_detail(request,vtype=None,id=None):
 	if("id" not in request.session.keys()):
 		return HttpResponseRedirect("/public_views/complains/all/")
 
-
 	if vtype=='complains':
 		instance=get_object_or_404(Complains,id=id)
 		refer="Filed against"
@@ -328,8 +327,9 @@ def public_view_detail(request,vtype=None,id=None):
 	utype=obj[0].user_type
 	if utype==True:
 		pobj=Profile.objects.filter(uname=instance.uname)
-		
+		request.session["prof"]=pobj[0].bcardid
 
+			
 	else:
 		pobj=''
 		
@@ -353,8 +353,8 @@ def logout(request):
 	request.session.pop("id",None)
 	request.session.pop("gov",None)
 	request.session.pop("location",None)
-	request.session.pop("prof",None)
-	
+	if "userprofile" in request.session.keys():
+		request.session.pop("userprofile",None)
 	return render(request,"kalyan/HE/public/index.html",{})
 
 
@@ -377,3 +377,28 @@ def profile(request):
 
 
 	return render(request,"kalyan/HE/public/profile_page.html",context)	
+
+
+
+def view_user(request):
+	string="https://apitest.sewadwaar.rajasthan.gov.in/app/live/Service/hofAndMember/ForApp/%s?client_id=ad7288a4-7764-436d-a727-783a977f1fe1" % (str(request.session["prof"]))	
+	with urllib.request.urlopen(string) as url:
+		data=json.loads(url.read().decode())
+	data=data['hof_Details']
+				
+	request.session.pop("prof",None)
+
+	context={
+
+		"data":data
+	}
+
+	print(data)
+
+
+	return render(request,"kalyan/HE/public/profile_page.html",context)	
+
+
+	
+	
+	
