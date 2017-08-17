@@ -11,17 +11,17 @@ from django.db.models import Sum
 import urllib.request, json 
 		
 
-aadhar = ''
-bah=''
 def index(request):
 
 	return render(request,"kalyan/HE/public/index.html",{})
+
 def register(request):
 	if("id" in request.session.keys()):
 		return HttpResponseRedirect("/")
 	flag = False
 	aadharno = ''
 	error = ''
+	bah = ''
 	if(request.method == 'POST'):
 		bah = request.POST["bhamashah"]
 		ada = request.POST["aadhar"]
@@ -61,13 +61,13 @@ def accept(request):
 	if("id" in request.session.keys()):
 		return HttpResponseRedirect("/")
 	if('aadhar' not in request.session.keys() and request.method == 'GET'):
+		request.session.pop("aadhar",None)
 		return HttpResponseRedirect("/")
 	elif('aadhar' in request.session.keys() and request.method == 'GET'):
 		aadhar = request.session["aadhar"]
 		request.session.pop("aadhar",None)
 		return render(request,"kalyan/HE/public/accept.html")
-	elif('aadhar' not in request.session.keys() and request.method == 'POST'):
-		request.session.pop("aadhar",None)
+	elif('aadhar' in request.session.keys() and request.method == 'POST'):
 		error = ''
 		username = request.POST['username']
 		password = request.POST['password']
@@ -86,8 +86,9 @@ def accept(request):
 	
 
 			else:
+				# print(bah)
 				profile_obj=Profile()
-				profile_obj.bcardid=bah
+				profile_obj.bcardid=request.session["aadhar"]
 				profile_obj.uname=username
 				profile_obj.password=password
 				profile_obj.save()
@@ -101,10 +102,11 @@ def accept(request):
 					request.session["location"]="Location not known"
 				else:
 					request.session["location"]=request.POST["location"]	
-				
+				request.session.pop("aadhar",None)
 				return HttpResponseRedirect("/login")
 				# return render(request,"kalyan/HE/public/accept.html",{"error":"Registration Successful"})
 		else:
+			request.session.pop("aadhar",None)
 			return render(request,"kalyan/HE/public/accept.html",{"error":error})
 
 
@@ -353,24 +355,27 @@ def logout(request):
 	request.session.pop("id",None)
 	request.session.pop("gov",None)
 	request.session.pop("location",None)
-	if "userprofile" in request.session.keys():
-		request.session.pop("userprofile",None)
+	request.session.pop("prof",None)
+	request.session.pop("aadhar",None)
+
 	return render(request,"kalyan/HE/public/index.html",{})
 
 
 
 
 def profile(request):
+	d64={}
 	if('prof' in request.session.keys()):
 		data=request.session["prof"]
 	else:
 		data = ''
-
-
-
+	string="https://apitest.sewadwaar.rajasthan.gov.in/app/live/Service/hofMembphoto/%s/%s?client_id=ad7288a4-7764-436d-a727-783a977f1fe1" % (str(data['BHAMASHAH_ID']),str(data['M_ID']))	
+	with urllib.request.urlopen(string) as url:
+		d64=json.loads(url.read().decode())
 	context={
 
-		"data":data
+		"data":data,
+		"d64":d64["hof_Photo"]["PHOTO"]
 	}
 
 	print(data)
