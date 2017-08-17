@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+    {% block title %}
+    	User Profile
+    {% endblock %}
+        {% block include_css %}
+
+        {% endblock %}
+
+{% block content %}
+	
+
+
+	Family_Id_No : {{data.FAMILYIDNO }}
+	Aadhar_Card_Id: {{data.AADHAR_ID}}
+	BHAMASHAH_ID: {{data.BHAMASHAH_ID}}  
+	
+
+	Card_Holder_Name : {{ data.NAME_ENG }}
+	Gender: {{data.GENDER}}
+	DOB: {{data.DOB}}
+	Spouce_Name: {{data.SPOUCE_NAME_ENG}}
+	MOTHER_NAME: {{data.MOTHER_NAME_ENG}}  
+	FATHER_NAME: {{data.FATHER_NAME_ENG}}  
+	RELATION: {{data.RELATION_ENG}}  
+	CATEGORY: {{data.CATEGORY_DESC_ENG}} 
+	
+	
+	Address: {{data.ADDRESS}}
+	Pin_Code: {{data.PIN_CODE}}
+	HOUSE_NUMBER: {{data.HOUSE_NUMBER_ENG}}  
+	BUILDING_NO: {{data.BUILDING_NO_ENG}}  
+	LAND_MARK: {{data.LAND_MARK_ENG}}  
+	GP_WARD: {{data.GP_WARD}}  
+	VILLAGE_NAME: {{data.VILLAGE_NAME }} 
+	BLOCK_CITY: {{data.BLOCK_CITY}}  
+	DISTRICT: {{data.DISTRICT}}  
+	STATE: {{data.STATE}}  
+	
+
+	
+	
+	BANK_NAME: {{data.BANK_NAME}} 
+	Family_Bank_Acc_No: {{data.ACC_NO}}
+	IFSC_CODE: {{data.IFSC_CODE}} 
+	
+	
+	
+
+	EDUCATION_DESC: {{data.EDUCATION_DESC_ENG}}  
+	INCOME_DESCRIPTION: {{data.INCOME_DESC_ENG}} 
+	ECONOMIC_GROUP: {{data.ECONOMIC_GROUP}} 
+	RATION_CARD_NO: {{data.RATION_CARD_NO}}  
+
+	
+	
+	MOBILE_NO: {{data.MOBILE_NO}}  
+	LANDLINE_NO: {{data.LANDLINE_NO}} 
+	FAX_NO: {{data.FAX_NO}}  
+	EMAIL: {{data.EMAIL}}  
+
+	
+	M_ID: {{data.M_ID}}  
+	IS_RURAL: {{data.IS_RURAL}} 
+
+	
+
+{% endblock %}
