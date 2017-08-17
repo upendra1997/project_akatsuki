@@ -31,7 +31,7 @@ Signup
 			    <div class ="panel-footer" style="color:{% if error == 'Registration Successful' %} green {% else %} red {% endif %};">
 			        <p align="center">{{ error }}</p>
 			    </div>
-			    <button class="btn btn-default" type="submit" {% if "id" in request.session.keys %}
+			    <button class="btn btn-default" style="width: 100%" type="submit" {% if "id" in request.session.keys %}
 				            	disabled="true" 
 				            {% endif %}>
 			                Authenticate<i class="glyphicon glyphicon-log-in"></i>

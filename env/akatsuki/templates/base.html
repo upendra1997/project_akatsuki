@@ -51,6 +51,9 @@
                             <li><a href="/register">Register</a></li>
                             <li><a href="/login">Login</a></li>
                             {% endif %}
+                            {% if "id" in request.session.keys and "gov" not in request.session.keys %}
+                            <li><a href="/profile">Profile</a></li>
+                            {% endif %}
                             <li><a href="/about">About Us</a></li>
                             {% if "id" in request.session.keys %}
                             <li><a href="/logout">LogOut</a></li>
