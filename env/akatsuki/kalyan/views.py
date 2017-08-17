@@ -27,15 +27,27 @@ def register(request):
 		ada = request.POST["aadhar"]
 		if(bah == '' or ada == ''):
 			error = "All the fields are required"
+		bah=bah.upper()
 		string="https://apitest.sewadwaar.rajasthan.gov.in/app/live/Service/hofAndMember/ForApp/%s?client_id=ad7288a4-7764-436d-a727-783a977f1fe1" % (str(bah))	
 		with urllib.request.urlopen(string) as url:
 			data=json.loads(url.read().decode())
-		data=data['hof_Details']
-		if str(data['AADHAR_ID'])==str(ada):
-			flag=True
-			request.session["prof"]=data
+		if 'hof_Details' in data.keys():
+
+			data=data['hof_Details']
+			if 'AADHAR_ID' in data.keys():
+	
+			
+				if str(data['AADHAR_ID'])==str(ada):
+					flag=True
+					request.session["prof"]=data
+				else:
+					error='Verification Failed, Check the entered FAMILY ID NO and Aadhar Id No and Try again..'
+			else:
+				error='Verification Failed, Check the entered FAMILY ID NO and Aadhar Id No and Try again..'
 		else:
 			error='Verification Failed, Check the entered FAMILY ID NO and Aadhar Id No and Try again..'
+
+
 	# check with api if verified set flag = true else write into error 
 	
 	if(flag):
@@ -85,6 +97,10 @@ def accept(request):
 				# for i in qset:
 				# 	print(i.uname,i.password,i.bcardid,timezone.localtime(i.created_on),timezone.localtime(i.last_logged_in))
 				request.session["id"]=obj[0].pk
+				if(request.POST["location"]==''):
+					request.session["location"]="Location not known"
+				else:
+					request.session["location"]=request.POST["location"]	
 				
 				return HttpResponseRedirect("/login")
 				# return render(request,"kalyan/HE/public/accept.html",{"error":"Registration Successful"})
@@ -185,9 +201,9 @@ def scomplain(request):
 		cobj.complain_for=complainfor
 		cobj.ulocation=request.session["location"]
 		cobj.save()
-		obj = Category.objects.get(cname=complainfor)
-		obj.num_complains=obj.num_complains+1
-		obj.save()
+		# obj = Category.objects.get(cname=complainfor)
+		# obj.num_complains=obj.num_complains+1
+		# obj.save()
 
 
 
@@ -208,9 +224,9 @@ def scomplain(request):
 		sobj.usuggestion=suggest_text
 		sobj.suggest_for=suggestfor
 		sobj.save()
-		obj = Category.objects.get(cname=suggestfor)
-		obj.num_suggestions=obj.num_suggestions+1
-		obj.save()
+		# obj = Category.objects.get(cname=suggestfor)
+		# obj.num_suggestions=obj.num_suggestions+1
+		# obj.save()
 
 
 		a = 'suggestion registered'
@@ -263,11 +279,19 @@ def public_views(request,vtype=None,ctype=None):
 		# If page is out of range (e.g. 9999), deliver last page of results.
 		comqset = paginator.page(paginator.num_pages)
 
+	# all_sug=Category.objects.all().aggregate(Sum('num_suggestions')).get('num_suggestions__sum', 0)
+
+	# all_comp=Category.objects.all().aggregate(Sum('num_complains')).get('num_complains__sum', 0)
+	all_sug=Suggestions.objects.all().count()
+	all_comp=Complains.objects.all().count()
 	catqset=Category.objects.all()
-	all_sug=Category.objects.all().aggregate(Sum('num_suggestions')).get('num_suggestions__sum', 0)
-
-	all_comp=Category.objects.all().aggregate(Sum('num_complains')).get('num_complains__sum', 0)
-
+	ls=[]
+	for obj in catqset:
+		numcomp=Complains.objects.filter(complain_for=obj.cname).count()
+		numsugg=Suggestions.objects.filter(suggest_for=obj.cname).count()
+		ls.append([numcomp,numsugg,obj.cname])
+			
+	
 	context={	"comqset":comqset,
 				"catqset":catqset,
 				"refer":refer,
@@ -278,7 +302,8 @@ def public_views(request,vtype=None,ctype=None):
 				"all_comp":all_comp,
 				"cval":ctype,
 				"antival":vtype,
-				"cat":cat
+				"cat":cat,
+				"ls":ls
 			}
 	return render(request,"kalyan/HE/public/public_views.html",context)
 

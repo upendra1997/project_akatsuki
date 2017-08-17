@@ -26,8 +26,8 @@ class Feedback(models.Model):
 
 class Category(models.Model):
 	cname = models.CharField(max_length=50,unique=True,verbose_name="Category")
-	num_suggestions=models.IntegerField(default=0)
-	num_complains=models.IntegerField(default=0)
+	# num_suggestions=models.IntegerField(default=0)
+	# num_complains=models.IntegerField(default=0)
 	class Meta:
 		verbose_name = "Category"
 		verbose_name_plural = "Categories"

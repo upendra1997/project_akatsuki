@@ -87,10 +87,10 @@
                 </p>
             </div>
             <hr/>
-            {% for obj in catqset %}
+            {% for obj in ls %}
             <div class="clearfix">
-                <a href="{% url 'kalyan:kalyan_public_views' vtype=antival ctype=obj.cname|replace_space %}"> {{ obj.cname }}  </a>
-                <p class=""><small>{{ obj.num_complains }} Complain{{ obj.num_complains|pluralize }} | {{ obj.num_suggestions }} Suggestion{{ obj.num_suggestions|pluralize }} </small></p>
+                <a href="{% url 'kalyan:kalyan_public_views' vtype=antival ctype=obj.2|replace_space %}"> {{ obj.2 }}  </a>
+                <p class=""><small>{{ obj.0 }} Complain{{ obj.0|pluralize }} | {{ obj.1 }} Suggestion{{ obj.1|pluralize }} </small></p>
             </div>
             <hr/>
             {% endfor %}
