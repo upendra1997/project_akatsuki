@@ -14,7 +14,8 @@ urlpatterns = [
  	url(r'^logout$', views.logout, name='kalyan_logout'),
  	url(r'^public_views/(?P<vtype>[\w\-]+)/(?P<ctype>[\w\-]+)/$', views.public_views, name='kalyan_public_views'),
  	url(r'^view_detail/(?P<vtype>[\w\-]+)/(?P<id>\d+)/$', views.public_view_detail, name='kalyan_public_view_detail'),
-
+ 	url(r'^Services$', views.service, name='available_services'),
+ 	
 ]
 
 admin.site.site_header = 'Kalyan Yojana'

@@ -304,6 +304,8 @@ def public_view_detail(request,vtype=None,id=None):
 			}	
 	return render(request,"kalyan/HE/public/public_view_detail.html",context)
 
+def service(request):
+	return render(request,"kalyan/HE/public/avail.html",{})
 
 
 

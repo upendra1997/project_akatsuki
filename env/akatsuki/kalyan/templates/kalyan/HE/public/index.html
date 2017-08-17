@@ -1,12 +1,31 @@
 {% extends "base.html" %}
-
+{% load static %}
 
 {% block title%}
 HOME
 {% endblock %}
-{% block content %}
-dfsfs
-<div  style="margin-top: 20px; margin-bottom: 80px">
-</div>
+{% block content %} 
+<style type="text/css">
+</style>
+<div>
+	      <img class="mySlides img-responsive" style="background-size: cover;" src="{% static 'kalyan/img/Bhamashah.jpg' %}" alt="First slide">
+	      <img class="mySlides img-responsive" style="background-size: cover;" src="{% static 'kalyan/img/bg.jpg' %}" alt="Second slide">
+	      <img class="mySlides img-responsive" style="background-size: cover;" src="{% static 'kalyan/img/logo.png' %}" alt="Third slide">
+<div>
+<script type="text/javascript">
+	var slideIndex = 0;
+	carousel();
 
+	function carousel() {
+	    var i;
+	    var x = document.getElementsByClassName("mySlides");
+	    for (i = 0; i < x.length; i++) {
+	      x[i].style.display = "none";
+	    }
+	    slideIndex++;
+	    if (slideIndex > x.length) {slideIndex = 1}
+	    x[slideIndex-1].style.display = "block";
+	    setTimeout(carousel, 2000); // Change image every 2 seconds
+	}
+</script>
 {% endblock %}
