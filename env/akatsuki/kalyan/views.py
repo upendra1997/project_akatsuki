@@ -39,6 +39,7 @@ def register(request):
 			
 				if str(data['AADHAR_ID'])==str(ada):
 					flag=True
+					
 					request.session["prof"]=data
 				else:
 					error='Verification Failed, Check the entered FAMILY ID NO and Aadhar Id No and Try again..'
@@ -57,18 +58,20 @@ def register(request):
 		return render(request,"kalyan/HE/public/register.html",{'error': error})
 	return render(request,"kalyan/HE/public/register.html")
 
+
+
+
+
 def accept(request):
 	if("id" in request.session.keys()):
 		return HttpResponseRedirect("/")
 	if('aadhar' not in request.session.keys() and request.method == 'GET'):
-		request.session.pop("aadhar",None)
 		return HttpResponseRedirect("/")
 	elif('aadhar' in request.session.keys() and request.method == 'GET'):
-		aadhar = request.session["aadhar"]
-		request.session.pop("aadhar",None)
 		return render(request,"kalyan/HE/public/accept.html")
-	elif('aadhar' in request.session.keys() and request.method == 'POST'):
+	elif('aadhar'  in request.session.keys() and request.method == 'POST'):
 		error = ''
+		# request.session.pop("aadhar",None)
 		username = request.POST['username']
 		password = request.POST['password']
 
@@ -98,15 +101,15 @@ def accept(request):
 				# for i in qset:
 				# 	print(i.uname,i.password,i.bcardid,timezone.localtime(i.created_on),timezone.localtime(i.last_logged_in))
 				request.session["id"]=obj[0].pk
+				
 				if(request.POST["location"]==''):
 					request.session["location"]="Location not known"
 				else:
 					request.session["location"]=request.POST["location"]	
-				request.session.pop("aadhar",None)
+				
 				return HttpResponseRedirect("/login")
 				# return render(request,"kalyan/HE/public/accept.html",{"error":"Registration Successful"})
 		else:
-			request.session.pop("aadhar",None)
 			return render(request,"kalyan/HE/public/accept.html",{"error":error})
 
 
@@ -329,7 +332,7 @@ def public_view_detail(request,vtype=None,id=None):
 	utype=obj[0].user_type
 	if utype==True:
 		pobj=Profile.objects.filter(uname=instance.uname)
-		request.session["prof"]=pobj[0].bcardid
+		request.session["userprof"]=pobj[0].bcardid
 
 			
 	else:
@@ -390,8 +393,7 @@ def view_user(request):
 	with urllib.request.urlopen(string) as url:
 		data=json.loads(url.read().decode())
 	data=data['hof_Details']
-				
-	request.session.pop("prof",None)
+	request.session.pop("userprof",None)			
 
 	context={
 

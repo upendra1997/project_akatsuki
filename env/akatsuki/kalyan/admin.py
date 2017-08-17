@@ -39,5 +39,6 @@ admin.site.register(Category,CategoryA)
 admin.site.register(Suggestions,SuggestionsA)
 admin.site.register(Complains,ComplainsA)
 admin.site.register(Feedback,FeedbackA)
+admin.site.register(Applications)
 
 # Register your models here.
