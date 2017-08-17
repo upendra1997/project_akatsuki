@@ -8,6 +8,7 @@ urlpatterns = [
  	url(r'^register$', views.register, name='kalyan_register'),
  	url(r'^register/accept$', views.accept, name='kalyan_register_accept'),
  	url(r'^login$', views.login, name='kalyan_login'),
+ 	url(r'^profile$', views.profile, name='kalyan_profile'),
  	url(r'^about$', views.about, name='kalyan_about'),
  	url(r'^feedback$', views.feedback, name='kalyan_feedback'),
  	url(r'^scomplain$', views.scomplain, name='kalyan_scomplain'),

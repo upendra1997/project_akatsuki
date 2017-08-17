@@ -8,29 +8,38 @@ from django.utils import timezone
 import re
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Sum
-
+import urllib.request, json 
+		
 
 aadhar = ''
 bah=''
 def index(request):
 
 	return render(request,"kalyan/HE/public/index.html",{})
-
 def register(request):
 	if("id" in request.session.keys()):
 		return HttpResponseRedirect("/")
-	flag = True
-	aadharno = 0
+	flag = False
+	aadharno = ''
 	error = ''
 	if(request.method == 'POST'):
 		bah = request.POST["bhamashah"]
 		ada = request.POST["aadhar"]
 		if(bah == '' or ada == ''):
 			error = "All the fields are required"
+		string="https://apitest.sewadwaar.rajasthan.gov.in/app/live/Service/hofAndMember/ForApp/%s?client_id=ad7288a4-7764-436d-a727-783a977f1fe1" % (str(bah))	
+		with urllib.request.urlopen(string) as url:
+			data=json.loads(url.read().decode())
+		data=data['hof_Details']
+		if str(data['AADHAR_ID'])==str(ada):
+			flag=True
+			request.session["prof"]=data
+		else:
+			error='Verification Failed, Check the entered FAMILY ID NO and Aadhar Id No and Try again..'
 	# check with api if verified set flag = true else write into error 
 	
 	if(flag):
-		request.session["aadhar"] = aadharno
+		request.session["aadhar"] = bah
 		return HttpResponseRedirect("register/accept")
 	if(error != '' and flag == False):
 		return render(request,"kalyan/HE/public/register.html",{'error': error})
@@ -77,6 +86,7 @@ def accept(request):
 				# for i in qset:
 				# 	print(i.uname,i.password,i.bcardid,timezone.localtime(i.created_on),timezone.localtime(i.last_logged_in))
 				request.session["id"]=obj[0].pk
+				
 				return HttpResponseRedirect("/login")
 				# return render(request,"kalyan/HE/public/accept.html",{"error":"Registration Successful"})
 		else:
@@ -98,6 +108,12 @@ def login(request):
 			if str(password) == str(obj[0].password):
 				request.session["id"]=obj[0].pk
 				error='Login Successful'
+				if obj[0].user_type==False:
+					string="https://apitest.sewadwaar.rajasthan.gov.in/app/live/Service/hofAndMember/ForApp/%s?client_id=ad7288a4-7764-436d-a727-783a977f1fe1" % (str(obj[0].bcardid))	
+					with urllib.request.urlopen(string) as url:
+						data=json.loads(url.read().decode())
+					data=data['hof_Details']
+					request.session["prof"]=data
 				if(request.POST["location"]==''):
 					request.session["location"]="Location not known"
 				else:
@@ -313,4 +329,24 @@ def logout(request):
 	request.session.pop("id",None)
 	request.session.pop("gov",None)
 	request.session.pop("location",None)
+	request.session.pop("prof",None)
+	
 	return render(request,"kalyan/HE/public/index.html",{})
+
+
+
+
+def profile(request):
+	data=request.session["prof"]
+
+
+
+	context={
+
+		"data":data
+	}
+
+	print(data)
+
+
+	return render(request,"kalyan/HE/public/profile_page.html",context)	
