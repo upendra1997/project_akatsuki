@@ -76,11 +76,18 @@ class Complains(models.Model):
 		verbose_name_plural = "Complains"
 
 
+class AppCategory(models.Model):
+	app_name=models.CharField(max_length=100,default='Application',verbose_name="Application name")
+	app_desc=models.TextField(max_length=500,verbose_name="Application Description")
+	class Meta:
+		verbose_name = "AppCategory"
+		verbose_name_plural = "AppCategory"
+	
+
 
 class Applications(models.Model):
 	uname=models.CharField(max_length=50)
-	app_name=models.CharField(max_length=100,default='Application',verbose_name="Application name")
-	app_desc=models.TextField(max_length=500,verbose_name="Application Description")
+	app_name=models.CharField(max_length=50,default='application')
 	created_on=models.DateTimeField(auto_now_add=True,verbose_name="Created On")
 	class Meta:
 		ordering=["-created_on"]

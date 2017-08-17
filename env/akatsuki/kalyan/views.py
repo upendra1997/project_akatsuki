@@ -388,22 +388,32 @@ def profile(request):
 
 
 
-def view_user(request):
-	string="https://apitest.sewadwaar.rajasthan.gov.in/app/live/Service/hofAndMember/ForApp/%s?client_id=ad7288a4-7764-436d-a727-783a977f1fe1" % (str(request.session["prof"]))	
+def view_user(request,vtype=None,id=None):
+	
+	string="https://apitest.sewadwaar.rajasthan.gov.in/app/live/Service/hofAndMember/ForApp/%s?client_id=ad7288a4-7764-436d-a727-783a977f1fe1" % (str(request.session["userprof"]))	
 	with urllib.request.urlopen(string) as url:
 		data=json.loads(url.read().decode())
 	data=data['hof_Details']
 	request.session.pop("userprof",None)			
 
+
+	string="https://apitest.sewadwaar.rajasthan.gov.in/app/live/Service/hofMembphoto/%s/%s?client_id=ad7288a4-7764-436d-a727-783a977f1fe1" % (str(data['BHAMASHAH_ID']),str(data['M_ID']))	
+	with urllib.request.urlopen(string) as url:
+		d64=json.loads(url.read().decode())
+	
+
+
 	context={
 
-		"data":data
+		"data":data,
+		"d64":d64["hof_Photo"]["PHOTO"]
+
 	}
 
 	print(data)
 
 
-	return render(request,"kalyan/HE/public/profile_page.html",context)	
+	return render(request,"kalyan/HE/public/user_profile_request.html",context)	
 
 
 	
