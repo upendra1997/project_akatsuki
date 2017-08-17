@@ -7,18 +7,110 @@
         <!-- Write code -->
         {% block include_css %}
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+ -->
         {% endblock %}
-
-
-
 
 {% block content %}
 
-<div class="">
+<div class="container" style="margin-top: 20px; margin-bottom: 80px">
+<div class="row">
+    <!-- <div class="col-md-1"></div> -->
+    <div class="col-md-6">
+    	<div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="text-center">
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <h3 class="pull-left">
+
+                                    {% if "gov" in request.session.keys %}
+                                    <a href=" {{ instance.get_absolute_url }}"> 
+                                        {{ instance.subject }} 
+                                    </a>
+                                    {% else %}
+                                        {{ instance.subject }}
+                                    {% endif %}
+
+                                </h3>
+                            </div>
+                            <div class="col-sm-3">
+                                <h4 class="pull-right" style="text-align: left;">
+                                    <small>{{ refer }} : {{ instance.complain_for }} {{ instance.suggest_for }}</small>
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body" style="word-break: break-all; word-wrap: break-word;">
+                    <p class="lat-post-content" style="word-break: break-all; white-space: normal;">
+                        {{ instance.ucomplain|linebreaks }} {{ instance.usuggestion|linebreaks }} 
+                    </p>
+                </div>
+                <div calss="panel-footer">
+                    <span class="label label-default">
+                        {{ instance.created_on|localtime|timesince }} ago
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1">
+        </div>
+        {% if flag %}
+			<div class="col-md-5">
+				<div class="panel panel-default">
+                	<div class="panel-heading">
+                    	<div class="text-center">
+                    		<h2 style="margin-bottom: 30px;">Personal Details</h2>
+                    	</div>
+                    </div>
+                    <div class="panel-body">
+						{% for user in pobj %}
+						<div class="clearfix">
+							User name : {{ user.uname }}
+						</div>
+						<hr/>
+						<div class="clearfix">							
+							Bahmashah Card Id : {{ user.bcardid }}
+						</div>
+						<hr/>
+
+						<div class="clearfix">
+							Account created On : {{ user.created_on }}
+						</div>
+						<hr/>
+
+						<div class="clearfix">
+							Last Logged into account on : {{ user.last_logged_in }}
+						</div>
+						<hr/>
+
+						{% endfor %}
+						<div class="clearfix">
+							{{ cvar }} {{ instance.ulocation }}
+						</div>
+						<br/>
+
+                    </div>
+			</div>
+
+			{% endif %}
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="">
 <div class="jumbotron "  style="padding-left: 50px;" >
-<h1 >{{ instance.subject }} </h1>
+<h3 >{{ instance.subject }} </h3>
 <p >{{ refer }} : {{ instance.complain_for }} {{ instance.suggest_for }} | <small>{{ instance.created_on|localtime|timesince }} ago</small></p>
 <p>
 </p><div class="col-md-12">
@@ -93,7 +185,7 @@
 
 
 
-
+ -->
 {% endblock %}
 
 {% block includes %}
@@ -103,3 +195,12 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 
 {% endblock %}
+
+<!-- 
+ <button onclick="goBack()">Go Back</button>
+
+<script>
+function goBack() {
+    window.history.back();
+}
+</script>  -->
