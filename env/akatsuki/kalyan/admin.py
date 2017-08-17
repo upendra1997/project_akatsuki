@@ -40,5 +40,6 @@ admin.site.register(Suggestions,SuggestionsA)
 admin.site.register(Complains,ComplainsA)
 admin.site.register(Feedback,FeedbackA)
 admin.site.register(Applications)
+admin.site.register(AppCategory)
 
 # Register your models here.

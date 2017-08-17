@@ -5,27 +5,131 @@
 HOME
 {% endblock %}
 {% block content %} 
-<style type="text/css">
-</style>
-<div>
-	      <img class="mySlides img-responsive" style="background-size: cover;" src="{% static 'kalyan/img/Bhamashah.jpg' %}" alt="First slide">
-	      <img class="mySlides img-responsive" style="background-size: cover;" src="{% static 'kalyan/img/bg.jpg' %}" alt="Second slide">
-	      <img class="mySlides img-responsive" style="background-size: cover;" src="{% static 'kalyan/img/logo.png' %}" alt="Third slide">
-<div>
-<script type="text/javascript">
-	var slideIndex = 0;
-	carousel();
+<style type="text/css">  
+        .showSlide {  
+            display: none  
+        }  
+            .showSlide img {  
+                width: 100%;  
+            }  
+        .slidercontainer {  
+            max-width: 1000px;  
+            position: relative;  
+            margin: auto;  
+        }  
+        .left, .right {  
+            cursor: pointer;  
+            position: absolute;  
+            top: 50%;  
+            width: auto;  
+            padding: 16px;  
+            margin-top: -22px;  
+            color: white;  
+            font-weight: bold;  
+            font-size: 18px;  
+            transition: 0.3s ease;  
+            border-radius: 0 3px 3px 0;  
+        }  
+        .right {  
+            right: 0;  
+            border-radius: 3px 0 0 3px;  
+        }  
+            .left:hover, .right:hover {  
+                background-color: rgba(115, 115, 115, 0.8);  
+            }  
+        .content {  
+            color: #eff5d4;  
+            font-size: 30px;  
+            padding: 8px 12px;  
+            position: absolute;  
+            top: 10px;  
+            width: 100%;  
+            text-align: center;  
+        }  
+        .active {  
+            background-color: #717171;  
+        }  
+        /* Fading animation */  
+        .fade {  
+            -webkit-animation-name: fade;  
+            -webkit-animation-duration: 2s;  
+            animation-name: fade;  
+            animation-duration: 2s;  
+        }  
+        @-webkit-keyframes fade {  
+            from {  
+                opacity: .4  
+            }  
+            to {  
+                opacity: 1  
+            }  
+        }  
+  
+        @keyframes fade {  
+            from {  
+                opacity: .4  
+            }  
+            to {  
+                opacity: 1  
+            }  
+        }  
+    </style> 
+    <div class="container" style="margin-top: 20px; margin-bottom: 80px">   
+    <div class="slidercontainer">  
+        <div class="showSlide">  
+            <img src="{% static 'kalyan/img/img1.jpg' %}" />  
+            <div class="content"><!--Slide1 heading  in all fields--></div>  
+        </div>  
+        <div class="showSlide ">  
+            <img src="{% static 'kalyan/img/img2.jpg' %}" />  
+            <div class="content"></div>  
+        </div>  
+  
+        <div class="showSlide">  
+            <img src="{% static 'kalyan/img/img3.jpg' %}" />  
+            <div class="content"></div>  
+        </div>  
+      <!--  <div class="showSlide fade">  
+            <img src="images/img4.jpg" height:200px/>  
+            <div class="content"></div>  
+        </div>   --> 
+        <!-- Navigation arrows -->  
+        <a class="left" onclick="nextSlide(-1)">-</a>  
+        <a class="right" onclick="nextSlide(1)">-</a>  
+    </div>  
+  <br/>
+  <br/>
+    <div style="text-align: center; font-size: 35px">
+    <h1 style = "font-size: 3em; font-family: monospace; font-color:grey; font-feature-settings: normal; font color: darkgray; font-weight: 400;font-style: normal; font-style: normal; font-variant-position: super;">  समान व्यवहार,सबका अधिकार</h1>
+    </div>
+    <div class="col-md-2">
+         <msp>
+         <div style="">
+            <img src = "{% static 'kalyan/img/bsh.png' %}"  style = " width: 350SSpx; image-resolution: from-image; image-size:80px; shape-image-threshold: 30px"></div>
+            </msp>
+     </div>
+    <script type="text/javascript">  
+        var slide_index = 1;  
+        displaySlides(slide_index);  
+  
+        function nextSlide(n) {  
+            displaySlides(slide_index += n);  
+        }  
+  
+        function currentSlide(n) {  
+            displaySlides(slide_index = n);  
+        }  
+  
+        function displaySlides(n) {  
+            var i;  
+            var slides = document.getElementsByClassName("showSlide");  
+            if (n > slides.length) { slide_index = 1 }  
+            if (n < 1) { slide_index = slides.length }  
+            for (i = 0; i < slides.length; i++) {  
+                slides[i].style.display = "none";  
+            }  
+            slides[slide_index - 1].style.display = "block";  
+        }  
+    </script>  
 
-	function carousel() {
-	    var i;
-	    var x = document.getElementsByClassName("mySlides");
-	    for (i = 0; i < x.length; i++) {
-	      x[i].style.display = "none";
-	    }
-	    slideIndex++;
-	    if (slideIndex > x.length) {slideIndex = 1}
-	    x[slideIndex-1].style.display = "block";
-	    setTimeout(carousel, 2000); // Change image every 2 seconds
-	}
-</script>
 {% endblock %}

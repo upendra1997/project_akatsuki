@@ -86,8 +86,8 @@ class AppCategory(models.Model):
 
 
 class Applications(models.Model):
-	uname=models.CharField(max_length=50)
-	app_name=models.CharField(max_length=50,default='application')
+	uname=models.CharField(max_length=50,verbose_name="User name")
+	app_name=models.CharField(max_length=50,default='application',verbose_name="Application Name")
 	created_on=models.DateTimeField(auto_now_add=True,verbose_name="Created On")
 	class Meta:
 		ordering=["-created_on"]

@@ -349,9 +349,23 @@ def public_view_detail(request,vtype=None,id=None):
 			}	
 	return render(request,"kalyan/HE/public/public_view_detail.html",context)
 
-def service(request):
-	return render(request,"kalyan/HE/public/avail.html",{})
+def service(request,id=None):
+	
+	aobj=AppCategory.objects.all()
+	obj={}
+			
+	if int(id)>0:
+		obj[id]=True
+		pqbj=Profile.objects.filter(pk=request.session["id"])
+		cur_uname=pqbj[0].uname
+		myobj=Applications()
+		myobj.uname=cur_uname
+		myobj.app_name=aobj[int(id)-1].app_name
+		myobj.save()
 
+	return render(request,"kalyan/HE/public/avail.html",{"obj":obj,"aobj":aobj})
+	
+	
 
 
 def logout(request):

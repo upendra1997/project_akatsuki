@@ -15,10 +15,23 @@
         <div class="panel-body">
 			<div class="clearfix">
 				<p  style="word-break: break-all; word-wrap: break-word;">
-					For BPL Families, government provides an amount of Rs. 2000 in two installments in the bank account of the beneficiary or the women head of the corresponding BPL family. The second installment is dispatched after six months of the first installment.
+					{{ aobj.0.app_name }} : {{ aobj.0.app_desc }}
 					<br/>
 					<br/>
-					<button id="btnLogin" class="btn btn-default">Apply for this service</button> 
+					<button id="btnLogin" class="btn btn-default"><a href="/Services/1">Apply for this service</a></button> 
+					<br/>
+					<br>
+					{% if '1' in obj.keys %} We have registered your application, will notify you as soon as it is processed..{% endif %}
+					<br/>
+				</p>
+			</div>
+			<hr/>
+			<div class="clearfix">
+				<p  style="word-break: break-all; word-wrap: break-word;">
+					{{ aobj.1.app_name }} : {{ aobj.1.app_desc }}
+					<br/>
+					<br/>
+					<button id="btnLogin" class="btn btn-default"><a href="https://pdsportal.nic.in/main.aspx">Apply for this service</a></button> 
 					<br/>
 					<br/>
 				</p>
@@ -26,45 +39,38 @@
 			<hr/>
 			<div class="clearfix">
 				<p  style="word-break: break-all; word-wrap: break-word;">
-					The women having Bhamashah Card can get Ration from Ration shops with the help of ePDS (Public Distribution System) and bio-metric system.
+					{{ aobj.2.app_name }} : {{ aobj.2.app_desc }} 
 					<br/>
 					<br/>
-					<button id="btnLogin" class="btn btn-default">Apply for this service</button> 
+					<button id="btnLogin" class="btn btn-default"><a href="/Services/3">Apply for this service</a></button> 
 					<br/>
-					<br/>
-				</p>
-			</div>
-			<hr/>
-			<div class="clearfix">
-				<p  style="word-break: break-all; word-wrap: break-word;">
-					The BPL families having Bhamashah Card can get medical insurance ranging from Rs. 30,000 to Rs. 3 lakh under Bhamashah Swasthya Bima Yojana. 
-					<br/>
-					<br/>
-					<button id="btnLogin" class="btn btn-default">Apply for this service</button> 
-					<br/>
+					<br>
+					{% if '3' in obj.keys %} We have registered your application, will notify you as soon as it is processed..{% endif %}
 					<br/>
 				</p>
 			</div>
 			<hr/>
 			<div class="clearfix">
 				<p  style="word-break: break-all; word-wrap: break-word;">
-					Additional Benefit of Rs. 100 per member will be given to the families having an Aadhaar card for each member.
+					{{ aobj.3.app_name }} : {{ aobj.3.app_desc }}
 					<br/>
 					<br/>
-					<button id="btnLogin" class="btn btn-default">Apply for this service</button> 
+					<button id="btnLogin" class="btn btn-default"><a href="/Services/4">Apply for this service</a></button> 
 					<br/>
+					<br>
+	{% if '4' in obj.keys %} We have registered your application, will notify you as soon as it is processed..{% endif %}
 					<br/>
 				</p>
 			</div>
 			<hr/>
 			<div class="clearfix">
 				<p  style="word-break: break-all; word-wrap: break-word;">
-					Some other Benefits can also be availed from various schemes linked with the Bhamashah Yojna like Pension, Scholarships, ePDS and MGNREGA.
-					<br/>
+					Some other Benefits can also be availed from various schemes linked with the Bhamashah Yojna like Pension, Scholarships, ePDS and MGNREGA...
+				<!-- 	<br/>
 					<br/>
 					<button id="btnLogin" class="btn btn-default">Apply for this service</button> 
 					<br/>
-				</p>
+				 --></p>
 			</div>
 			<hr/>
 		</div>
