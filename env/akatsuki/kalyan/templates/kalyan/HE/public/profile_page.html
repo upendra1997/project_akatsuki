@@ -9,7 +9,7 @@
 
 {% block content %}
 	
-
+{% if prof in session.keys %}
 
 	Family_Id_No : {{data.FAMILYIDNO }}
 	Aadhar_Card_Id: {{data.AADHAR_ID}}
@@ -64,5 +64,6 @@
 	IS_RURAL: {{data.IS_RURAL}} 
 
 	
+{% endif %}
 
 {% endblock %}

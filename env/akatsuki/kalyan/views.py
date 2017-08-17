@@ -337,7 +337,10 @@ def logout(request):
 
 
 def profile(request):
-	data=request.session["prof"]
+	if('prof' in request.session.keys()):
+		data=request.session["prof"]
+	else:
+		data = ''
 
 
 
