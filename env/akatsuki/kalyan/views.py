@@ -75,7 +75,6 @@ def accept(request):
 
 			else:
 				profile_obj=Profile()
-				bah=str(randint(0,5000))
 				profile_obj.bcardid=bah
 				profile_obj.uname=username
 				profile_obj.password=password
