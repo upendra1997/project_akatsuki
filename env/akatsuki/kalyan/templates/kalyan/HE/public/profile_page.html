@@ -9,60 +9,77 @@
 
 {% block content %}
 	
-{% if prof in session.keys %}
+{% if 'prof' in request.session.keys %}
+<div class="container" style="margin-top: 20px; margin-bottom: 80px">
+	<div class="panel panel-default">
+    	<div class="panel-heading">
+        	<div class="text-center">
+        	<h1>Your Profile</h1>
+        	</div>
+        </div>
+        <div class="panel-body">
+			<div class="clearfix">
+	<label for="label">Family_Id_No: </label> {{data.FAMILYIDNO }}<br/>
+	<label for="label">Aadhar_Card_Id: </label> {{data.AADHAR_ID}}<br/>
+	<label for="label">BHAMASHAH_ID: </label> {{data.BHAMASHAH_ID}}<br/>  
+			</div>	
+			<hr/>
+			<div class="clearfix">
+	<label for="label">Card_Holder_Name : </label> {{ data.NAME_ENG }}<br/>
+	<label for="label">Gender: </label> {{data.GENDER}}<br/>
+	<label for="label">DOB: </label> {{data.DOB}}<br/>
+	<label for="label">Spouce_Name: </label> {{data.SPOUCE_NAME_ENG}}<br/>
+	<label for="label">MOTHER_NAME: </label> {{data.MOTHER_NAME_ENG}}<br/>
+	<label for="label">FATHER_NAME: </label> {{data.FATHER_NAME_ENG}}<br/>
+	<label for="label">RELATION: </label> {{data.RELATION_ENG}}<br/>
+	<label for="label">CATEGORY: </label> {{data.CATEGORY_DESC_ENG}}<br/> 
+				</div>	
+			<hr/>	
+	<div class="clearfix">
+	<label for="label">Address: </label> {{data.ADDRESS}}<br/>
+	<label for="label">Pin_Code: </label> {{data.PIN_CODE}}<br/>
+	<label for="label">HOUSE_NUMBER: </label> {{data.HOUSE_NUMBER_ENG}}<br/>
+	<label for="label">BUILDING_NO: </label> {{data.BUILDING_NO_ENG}}<br/>
+	<label for="label">LAND_MARK: </label> {{data.LAND_MARK_ENG}}<br/>
+	<label for="label">GP_WARD: </label> {{data.GP_WARD}}<br/>
+	<label for="label">VILLAGE_NAME: </label> {{data.VILLAGE_NAME}}<br/> 
+	<label for="label">BLOCK_CITY: </label> {{data.BLOCK_CITY}}<br/>
+	<label for="label">DISTRICT: </label> {{data.DISTRICT}}<br/>
+	<label for="label">STATE: </label> {{data.STATE}}<br/>
+	
+			</div>	
+			<hr/>
+	
+	<div class="clearfix">
+	<label for="label">BANK_NAME: </label> {{data.BANK_NAME}}<br/>
+	<label for="label">Family_Bank_Acc_No: </label> {{data.ACC_NO}}<br/>
+	<label for="label">IFSC_CODE: </label> {{data.IFSC_CODE}}<br/>
+	
+				</div>	
+			<hr/>
+	
+<div class="clearfix">
+	<label for="label">EDUCATION_DESC: </label> {{data.EDUCATION_DESC_ENG}}<br/>  
+	<label for="label">INCOME_DESCRIPTION: </label> {{data.INCOME_DESC_ENG}}<br/>
+	<label for="label">ECONOMIC_GROUP: </label> {{data.ECONOMIC_GROUP}}<br/>
+	<label for="label">RATION_CARD_NO: </label> {{data.RATION_CARD_NO}}<br/>
 
-	Family_Id_No : {{data.FAMILYIDNO }}
-	Aadhar_Card_Id: {{data.AADHAR_ID}}
-	BHAMASHAH_ID: {{data.BHAMASHAH_ID}}  
-	
-
-	Card_Holder_Name : {{ data.NAME_ENG }}
-	Gender: {{data.GENDER}}
-	DOB: {{data.DOB}}
-	Spouce_Name: {{data.SPOUCE_NAME_ENG}}
-	MOTHER_NAME: {{data.MOTHER_NAME_ENG}}  
-	FATHER_NAME: {{data.FATHER_NAME_ENG}}  
-	RELATION: {{data.RELATION_ENG}}  
-	CATEGORY: {{data.CATEGORY_DESC_ENG}} 
-	
-	
-	Address: {{data.ADDRESS}}
-	Pin_Code: {{data.PIN_CODE}}
-	HOUSE_NUMBER: {{data.HOUSE_NUMBER_ENG}}  
-	BUILDING_NO: {{data.BUILDING_NO_ENG}}  
-	LAND_MARK: {{data.LAND_MARK_ENG}}  
-	GP_WARD: {{data.GP_WARD}}  
-	VILLAGE_NAME: {{data.VILLAGE_NAME }} 
-	BLOCK_CITY: {{data.BLOCK_CITY}}  
-	DISTRICT: {{data.DISTRICT}}  
-	STATE: {{data.STATE}}  
-	
-
-	
-	
-	BANK_NAME: {{data.BANK_NAME}} 
-	Family_Bank_Acc_No: {{data.ACC_NO}}
-	IFSC_CODE: {{data.IFSC_CODE}} 
-	
-	
-	
-
-	EDUCATION_DESC: {{data.EDUCATION_DESC_ENG}}  
-	INCOME_DESCRIPTION: {{data.INCOME_DESC_ENG}} 
-	ECONOMIC_GROUP: {{data.ECONOMIC_GROUP}} 
-	RATION_CARD_NO: {{data.RATION_CARD_NO}}  
-
-	
-	
-	MOBILE_NO: {{data.MOBILE_NO}}  
-	LANDLINE_NO: {{data.LANDLINE_NO}} 
-	FAX_NO: {{data.FAX_NO}}  
-	EMAIL: {{data.EMAIL}}  
-
-	
-	M_ID: {{data.M_ID}}  
-	IS_RURAL: {{data.IS_RURAL}} 
-
+				</div>	
+			<hr/>
+	<div class="clearfix">
+	<label for="label">MOBILE_NO: </label> {{data.MOBILE_NO}}<br/>
+	<label for="label">LANDLINE_NO: </label> {{data.LANDLINE_NO}}<br/> 
+	<label for="label">FAX_NO: </label> {{data.FAX_NO}}<br/>
+	<label for="label">EMAIL: </label> {{data.EMAIL}}<br/>
+			</div>	
+			<hr/>
+	<div class="clearfix">
+	<label for="label">M_ID: </label> {{data.M_ID}}<br/>
+	<label for="label">IS_RURAL: </label> {{data.IS_RURAL}}<br/>
+</div>
+</div>
+</div>
+</div>
 	
 {% endif %}
 
