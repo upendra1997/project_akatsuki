@@ -32,7 +32,7 @@
 
             body {
                 background:rgba(255,255,255,0.8); /* applies a 50% transparent white background */
-            }        */
+            }        
     </style>
     <body style="font-family: Font; padding-top: 40px; padding-bottom: 40px;" background="{% static 'kalyan/img/bg.jpg' %}" style="background-repeat: no-repeat; background-attachment: fixed; background-position: center;">
      <!-- navbar-fixed-top -->
@@ -43,7 +43,7 @@
                         </div>
                         <ul class="nav navbar-nav">
                             <li><a href="/public_views/complains/all">Public Views</a></li>
-                            <li><a href="#">Application Views</a></li>
+                            <li><a href="/applis_view">Application Views</a></li>
                             {% if "gov" not in request.session.keys %}
                             <li><a href="/scomplain">Complain | Suggest</a></li>
                             {% endif %}
@@ -53,7 +53,8 @@
                             <li><a href="/login">Login</a></li>
                             {% endif %}
                             {% if "id" in request.session.keys and "gov" not in request.session.keys %}
-                            <li><a href="/profile">Profile</a></li>
+
+                            <li><a href="/profile/{{request.session.id}}">Profile</a></li>
                             {% endif %}
                             <li><a href="/about">About Us</a></li>
                             {% if "id" in request.session.keys %}

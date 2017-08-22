@@ -100,7 +100,7 @@ def accept(request):
 				# qset=Profile.objects.all()
 				# for i in qset:
 				# 	print(i.uname,i.password,i.bcardid,timezone.localtime(i.created_on),timezone.localtime(i.last_logged_in))
-				request.session["id"]=obj[0].pk
+				request.session["id"]=obj[0].bcardid
 				
 				if(request.POST["location"]==''):
 					request.session["location"]="Location not known"
@@ -126,14 +126,14 @@ def login(request):
 			error='User not registered'
 		else:
 			if str(password) == str(obj[0].password):
-				request.session["id"]=obj[0].pk
+				request.session["id"]=obj[0].bcardid
 				error='Login Successful'
-				if obj[0].user_type==False:
-					string="https://apitest.sewadwaar.rajasthan.gov.in/app/live/Service/hofAndMember/ForApp/%s?client_id=ad7288a4-7764-436d-a727-783a977f1fe1" % (str(obj[0].bcardid))	
-					with urllib.request.urlopen(string) as url:
-						data=json.loads(url.read().decode())
-					data=data['hof_Details']
-					request.session["prof"]=data
+				# if obj[0].user_type==False:
+				# 	string="https://apitest.sewadwaar.rajasthan.gov.in/app/live/Service/hofAndMember/ForApp/%s?client_id=ad7288a4-7764-436d-a727-783a977f1fe1" % (str(obj[0].bcardid))	
+				# 	with urllib.request.urlopen(string) as url:
+				# 		data=json.loads(url.read().decode())
+				# 	data=data['hof_Details']
+				# 	request.session["prof"]=data
 				if(request.POST["location"]==''):
 					request.session["location"]="Location not known"
 				else:
@@ -196,7 +196,7 @@ def scomplain(request):
 	if(request.method == 'POST' and 'complain' in request.POST.keys()):
 		print("write database into complain fields")
 		complain_text=suggest_text
-		obj=Profile.objects.filter(pk=request.session["id"])
+		obj=Profile.objects.filter(bcardid=request.session["id"])
 		cur_uname=obj[0].uname
 		complainfor=request.POST["dropdown"]
 		cobj=Complains()
@@ -219,7 +219,7 @@ def scomplain(request):
 	elif(request.method == 'POST' and 'suggest' in request.POST.keys()):
 		print("write database into suggest field")
 		suggest_text=str(request.POST['description'])
-		obj=Profile.objects.filter(pk=request.session["id"])
+		obj=Profile.objects.filter(bcardid=request.session["id"])
 		cur_uname=obj[0].uname
 		suggestfor=request.POST["dropdown"]
 		sobj=Suggestions()
@@ -328,7 +328,7 @@ def public_view_detail(request,vtype=None,id=None):
 		refer="Suggestion for"
 		cvar=""
 
-	obj=Profile.objects.filter(pk=request.session["id"])
+	obj=Profile.objects.filter(bcardid=request.session["id"])
 	utype=obj[0].user_type
 	if utype==True:
 		pobj=Profile.objects.filter(uname=instance.uname)
@@ -356,7 +356,7 @@ def service(request,id=None):
 			
 	if int(id)>0:
 		obj[id]=True
-		pqbj=Profile.objects.filter(pk=request.session["id"])
+		pqbj=Profile.objects.filter(bcardid=request.session["id"])
 		cur_uname=pqbj[0].uname
 		myobj=Applications()
 		myobj.uname=cur_uname
@@ -380,56 +380,89 @@ def logout(request):
 
 
 
-def profile(request):
-	d64={}
-	if('prof' in request.session.keys()):
-		data=request.session["prof"]
-	else:
-		data = ''
+def profile(request,vtype=None):
+	# d64={}
+	# if('prof' in request.session.keys()):
+	# 	data=request.session["prof"]
+	# else:
+	# 	data = ''
+	# string="https://apitest.sewadwaar.rajasthan.gov.in/app/live/Service/hofMembphoto/%s/%s?client_id=ad7288a4-7764-436d-a727-783a977f1fe1" % (str(data['BHAMASHAH_ID']),str(data['M_ID']))	
+	# with urllib.request.urlopen(string) as url:
+	# 	d64=json.loads(url.read().decode())
+	# context={
+
+	# 	"data":data,
+	# 	"d64":d64["hof_Photo"]["PHOTO"]
+	# }
+
+	# print(data)
+
+
+	# return render(request,"kalyan/HE/public/profile_page.html",context)	
+
+	string="https://apitest.sewadwaar.rajasthan.gov.in/app/live/Service/hofAndMember/ForApp/%s?client_id=ad7288a4-7764-436d-a727-783a977f1fe1" % (str(vtype))	
+	with urllib.request.urlopen(string) as url:
+		data=json.loads(url.read().decode())
+	data=data['hof_Details']
+
+
 	string="https://apitest.sewadwaar.rajasthan.gov.in/app/live/Service/hofMembphoto/%s/%s?client_id=ad7288a4-7764-436d-a727-783a977f1fe1" % (str(data['BHAMASHAH_ID']),str(data['M_ID']))	
 	with urllib.request.urlopen(string) as url:
 		d64=json.loads(url.read().decode())
+
 	context={
 
 		"data":data,
 		"d64":d64["hof_Photo"]["PHOTO"]
+
 	}
 
 	print(data)
-
 
 	return render(request,"kalyan/HE/public/profile_page.html",context)	
 
 
 
-def view_user(request,vtype=None,id=None):
+
+
+
+# def view_user(request,vtype=None,id=None):
 	
-	string="https://apitest.sewadwaar.rajasthan.gov.in/app/live/Service/hofAndMember/ForApp/%s?client_id=ad7288a4-7764-436d-a727-783a977f1fe1" % (str(request.session["userprof"]))	
-	with urllib.request.urlopen(string) as url:
-		data=json.loads(url.read().decode())
-	data=data['hof_Details']
-	request.session.pop("userprof",None)			
+# 	string="https://apitest.sewadwaar.rajasthan.gov.in/app/live/Service/hofAndMember/ForApp/%s?client_id=ad7288a4-7764-436d-a727-783a977f1fe1" % (str(request.session["userprof"]))	
+# 	with urllib.request.urlopen(string) as url:
+# 		data=json.loads(url.read().decode())
+# 	data=data['hof_Details']
+# 	request.session.pop("userprof",None)			
 
 
-	string="https://apitest.sewadwaar.rajasthan.gov.in/app/live/Service/hofMembphoto/%s/%s?client_id=ad7288a4-7764-436d-a727-783a977f1fe1" % (str(data['BHAMASHAH_ID']),str(data['M_ID']))	
-	with urllib.request.urlopen(string) as url:
-		d64=json.loads(url.read().decode())
+# 	string="https://apitest.sewadwaar.rajasthan.gov.in/app/live/Service/hofMembphoto/%s/%s?client_id=ad7288a4-7764-436d-a727-783a977f1fe1" % (str(data['BHAMASHAH_ID']),str(data['M_ID']))	
+# 	with urllib.request.urlopen(string) as url:
+# 		d64=json.loads(url.read().decode())
+
+# 	context={
+
+# 		"data":data,
+# 		"d64":d64["hof_Photo"]["PHOTO"]
+
+# 	}
+
+# 	print(data)
+
+
+# 	return render(request,"kalyan/HE/public/user_profile_request.html",context)	
+
+
+
+def app_view(request):
+	ls=[]
+	qset=Applications.objects.all()
+	for obj in qset:
+		imo=Profile.objects.filter(uname=obj.uname)
+		ls.append([obj.app_name,obj.uname,imo[0].bcardid,obj.created_on])
+	return render(request,"kalyan/HE/public/application_views.html",{"ls":ls,"flag":False})	
+
+
 	
-
-
-	context={
-
-		"data":data,
-		"d64":d64["hof_Photo"]["PHOTO"]
-
-	}
-
-	print(data)
-
-
-	return render(request,"kalyan/HE/public/user_profile_request.html",context)	
-
-
-	
+		
 	
 	

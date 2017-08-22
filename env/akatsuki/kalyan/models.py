@@ -15,6 +15,9 @@ class Profile(models.Model):
     # last_logged_in = models.DateTimeField(default=timezone.now)
     created_on = models.DateTimeField(auto_now_add=True,verbose_name="Created On")
     last_logged_in = models.DateTimeField(auto_now=True,verbose_name="Last Login Time")
+	
+
+
        
 class Feedback(models.Model):
 	uname = models.CharField(max_length=50,verbose_name="User Name")
@@ -90,7 +93,7 @@ class Applications(models.Model):
 	app_name=models.CharField(max_length=50,default='application',verbose_name="Application Name")
 	created_on=models.DateTimeField(auto_now_add=True,verbose_name="Created On")
 	class Meta:
-		ordering=["-created_on"]
+		ordering=["created_on"]
 		verbose_name = "Application"
 		verbose_name_plural = "Applications"
 	

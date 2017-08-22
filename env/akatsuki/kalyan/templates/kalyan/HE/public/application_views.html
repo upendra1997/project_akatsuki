@@ -25,7 +25,7 @@
         
 
         <div id="postlist">
-            {% for obj in comqset %}
+            {% for obj in ls %}
             <div class="panel panel-default" 
             {% if subject != obj.subject %}
             style="opacity: 0.5"
@@ -39,17 +39,21 @@
                                 <h3 class="pull-left">
 
                                     {% if "gov" in request.session.keys %}
-                                    <a href=" {{ obj.get_absolute_url }}"> 
-                                        {{ obj.subject }} 
-                                    </a>
+                              <!--       <a href=" {{ obj.get_absolute_url }}">  -->
+                                        {{ obj.0 }}
+                                   <!--  </a> -->
                                     {% else %}
-                                        {{ obj.subject }}
+                                        {{ obj.0 }}
                                     {% endif %}
+                                    
+                                    
+                                        | Applicant:<a href='{% url "kalyan:kalyan_profile" vtype=obj.2 %}'>  {{ obj.1 }}</a>
+
                                 </h3>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div><!-- 
                 <div class="panel-body" style="word-break: break-all; word-wrap: break-word;">
                     <p class="lat-post-content" style="word-break: break-all; white-space: normal;">
                         {{ obj.ucomplain|linebreaks }} {{ obj.usuggestion|linebreaks }} 
@@ -59,10 +63,10 @@
                             {% endif %}
 
                     </p>
-                </div>
+                </div -->
                 <div calss="panel-footer">
                     <span class="label label-default">
-                        {{ obj.created_on|localtime|timesince }} ago
+                        {{ obj.3|localtime|timesince }} ago
                     </span>
                 </div>
             </div>
@@ -72,11 +76,6 @@
 <div class="col-md-1"></div>
     <div class="col-md-3">
 
-        <!-- <h1 style="margin-bottom: 30px;">Checkout</h1> -->
-<!--         <div class="sidebar-module">
-            <a href='{% url "kalyan:kalyan_public_views" vtype=val ctype=cval %}'><h4>Check Public {{ side_topic }}</h4></a>
-            <hr/>
-        </div> -->
 {% if flag %}
 			<div class="col-md-5">
 				<div class="panel panel-default">
@@ -143,80 +142,7 @@
 </div>
 
 
-<!-- <div class="rows container-fluid main-container" style="margin-top: 20px;">
-    <div class="col-md-8 ">
-        <h4 class="lat-post-heading"> 
-            <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-            Public {{ topic }} {% ifnotequal cat "all" %} | {{ cat }} {% endifnotequal %}
-        </h4>
-        <hr class="myhr"/>
-        {% for obj in comqset %}
-        <div class="clearfix">
-            {% if "gov" in request.session.keys %}
-            <a href=" {{ obj.get_absolute_url }}">
-                <h5 class=""> 
-                    {{ obj.subject }} 
-                </h5>
-            </a>
-            {% else %}
-                 <h5 class=""> 
-                    {{ obj.subject }} 
-                </h5>
-            {% endif %}
-            <h6 class="lat-post-info">
-                <small>{{ refer }} : {{ obj.complain_for }} {{ obj.suggest_for }} | {{ obj.created_on|localtime|timesince }} ago</small>
-            </h6>
-            
-            <p class="lat-post-content">
-                {{ obj.ucomplain|linebreaks|truncatechars:30 }} {{ obj.usuggestion|linebreaks|truncatechars:30 }} 
-                <a href="{{ obj.get_absolute_url }}">Read More</a>
-            </p>
-        </div>
-        <hr/>
-        {% endfor %}
-        <div class="pagination">
-            <span class="step-links">
-                {% if comqset.has_previous %}
-                    <a href="?page={{ comqset.previous_page_number }}">Previous</a>
-                {% endif %}
 
-                <span class="current">
-                    Page {{ comqset.number }} of {{ comqset.paginator.num_pages }}.
-                </span>
-                {% if comqset.has_next %}
-                    <a href="?page={{ comqset.next_page_number }}">Next</a>
-                {% endif %}
-            </span>
-        </div>
-    </div>
-    <br>
-    <div class="col-md-4 side-pannel">
-        <h1 style="margin-bottom: 30px;">Checkout</h1>
-        <hr/>
-        <div class="sidebar-module">
-            <a href='{% url "kalyan:kalyan_public_views" vtype=val ctype=cval %}'><h4>Public {{ side_topic }}</h4></a>
-            <hr/>
-        </div>
-        <br/>
-        <div>
-            <h2 class="other-main-head" style="margin-bottom: 30px;">Filter By Category</h2>
-            <div class="clearfix">
-                <a href="{% url 'kalyan:kalyan_public_views' vtype=antival ctype='all' %}"><h5> All </h5></a>
-                <p class="">
-                    <small>{{ all_comp }} Complain{{ all_comp|pluralize }} | {{ all_sug }} Suggestion{{ all_sug|pluralize }} </small>
-                </p>
-            </div>
-            <hr/>
-            {% for obj in catqset %}
-            <div class="clearfix">
-                <a href="{% url 'kalyan:kalyan_public_views' vtype=antival ctype=obj.cname|replace_space %}"> {{ obj.cname }}  </a>
-                <p class=""><small>{{ obj.num_complains }} Complain{{ obj.num_complains|pluralize }} | {{ obj.num_suggestions }} Suggestion{{ obj.num_suggestions|pluralize }} </small></p>
-            </div>
-            <hr/>
-            {% endfor %}
-        </div>
-    </div>
-</div> -->
 {% endblock %}
 {% block includes %}
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
