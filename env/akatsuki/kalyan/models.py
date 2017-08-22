@@ -15,6 +15,9 @@ class Profile(models.Model):
     # last_logged_in = models.DateTimeField(default=timezone.now)
     created_on = models.DateTimeField(auto_now_add=True,verbose_name="Created On")
     last_logged_in = models.DateTimeField(auto_now=True,verbose_name="Last Login Time")
+	
+
+
        
 class Feedback(models.Model):
 	uname = models.CharField(max_length=50,verbose_name="User Name")
@@ -26,8 +29,8 @@ class Feedback(models.Model):
 
 class Category(models.Model):
 	cname = models.CharField(max_length=50,unique=True,verbose_name="Category")
-	num_suggestions=models.IntegerField(default=0)
-	num_complains=models.IntegerField(default=0)
+	# num_suggestions=models.IntegerField(default=0)
+	# num_complains=models.IntegerField(default=0)
 	class Meta:
 		verbose_name = "Category"
 		verbose_name_plural = "Categories"
@@ -62,6 +65,7 @@ class Complains(models.Model):
 	subject=models.CharField(max_length=100,default='Complain',verbose_name="Subject")
 	ucomplain = models.TextField(max_length=500,verbose_name="Complain")
 	created_on = models.DateTimeField(auto_now_add=True,verbose_name="Created On")
+	ulocation=models.CharField(max_length=200,default='Location Not known')
 	# many_profile = models.ForeignKey(Profile)
 	# many_category = models.ForeignKey(Category)
 	
@@ -75,6 +79,24 @@ class Complains(models.Model):
 		verbose_name_plural = "Complains"
 
 
+class AppCategory(models.Model):
+	app_name=models.CharField(max_length=100,default='Application',verbose_name="Application name")
+	app_desc=models.TextField(max_length=500,verbose_name="Application Description")
+	class Meta:
+		verbose_name = "AppCategory"
+		verbose_name_plural = "AppCategory"
+	
+
+
+class Applications(models.Model):
+	uname=models.CharField(max_length=50,verbose_name="User name")
+	app_name=models.CharField(max_length=50,default='application',verbose_name="Application Name")
+	created_on=models.DateTimeField(auto_now_add=True,verbose_name="Created On")
+	class Meta:
+		ordering=["created_on"]
+		verbose_name = "Application"
+		verbose_name_plural = "Applications"
+	
 
 
 

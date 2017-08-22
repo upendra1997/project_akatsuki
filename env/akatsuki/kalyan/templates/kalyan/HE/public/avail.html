@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load static %}
+    {% block title %}
+    	Apply
+    {% endblock %}
+{% block content %} 
+
+<div class="container" style="margin-top: 20px; margin-bottom: 80px">
+	<div class="panel panel-default">
+    	<div class="panel-heading">
+        	<div class="text-center">
+        		<h2>Available Services</h2>
+        	</div>
+        </div>
+        <div class="panel-body">
+			<div class="clearfix">
+				<p  style="word-break: break-all; word-wrap: break-word;">
+					{{ aobj.0.app_name }} : {{ aobj.0.app_desc }}
+					<br/>
+					<br/>
+					<button id="btnLogin" class="btn btn-default"><a href="/Services/1">Apply for this service</a></button> 
+					<br/>
+					<br>
+					{% if '1' in obj.keys %} We have registered your application, will notify you as soon as it is processed..{% endif %}
+					<br/>
+				</p>
+			</div>
+			<hr/>
+			<div class="clearfix">
+				<p  style="word-break: break-all; word-wrap: break-word;">
+					{{ aobj.1.app_name }} : {{ aobj.1.app_desc }}
+					<br/>
+					<br/>
+					<button id="btnLogin" class="btn btn-default"><a href="https://pdsportal.nic.in/main.aspx">Apply for this service</a></button> 
+					<br/>
+					<br/>
+				</p>
+			</div>
+			<hr/>
+			<div class="clearfix">
+				<p  style="word-break: break-all; word-wrap: break-word;">
+					{{ aobj.2.app_name }} : {{ aobj.2.app_desc }} 
+					<br/>
+					<br/>
+					<button id="btnLogin" class="btn btn-default"><a href="/Services/3">Apply for this service</a></button> 
+					<br/>
+					<br>
+					{% if '3' in obj.keys %} We have registered your application, will notify you as soon as it is processed..{% endif %}
+					<br/>
+				</p>
+			</div>
+			<hr/>
+			<div class="clearfix">
+				<p  style="word-break: break-all; word-wrap: break-word;">
+					{{ aobj.3.app_name }} : {{ aobj.3.app_desc }}
+					<br/>
+					<br/>
+					<button id="btnLogin" class="btn btn-default"><a href="/Services/4">Apply for this service</a></button> 
+					<br/>
+					<br>
+	{% if '4' in obj.keys %} We have registered your application, will notify you as soon as it is processed..{% endif %}
+					<br/>
+				</p>
+			</div>
+			<hr/>
+			<div class="clearfix">
+				<p  style="word-break: break-all; word-wrap: break-word;">
+					Some other Benefits can also be availed from various schemes linked with the Bhamashah Yojna like Pension, Scholarships, ePDS and MGNREGA...
+				<!-- 	<br/>
+					<br/>
+					<button id="btnLogin" class="btn btn-default">Apply for this service</button> 
+					<br/>
+				 --></p>
+			</div>
+			<hr/>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}

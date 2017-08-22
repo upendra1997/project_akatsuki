@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% load tz %}
+{% load app_filters %}
+    {% block title %}
+    	Public Views
+    {% endblock %}
+        <!-- Write code -->
+        {% block include_css %}
+
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+ -->
+        {% endblock %}
+
+{% block content %}
+
+<div class="container"  style="margin-top: 20px; margin-bottom: 80px">
+<div class="row">
+    <!-- <div class="col-md-1"></div> -->
+    <div class="col-md-9">
+        
+        <h2 class="lat-post-heading">
+        <!-- <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> -->
+        Public Applications
+        </h2>
+        
+
+        <div id="postlist">
+            {% for obj in ls %}
+            <div class="panel panel-default" 
+            {% if subject != obj.subject %}
+            style="opacity: 0.5"
+            {% else %}
+            {% endif %}
+            >
+                <div class="panel-heading">
+                    <div class="text-center">
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <h3 class="pull-left">
+
+                                    {% if "gov" in request.session.keys %}
+                              <!--       <a href=" {{ obj.get_absolute_url }}">  -->
+                                        {{ obj.0 }}
+                                   <!--  </a> -->
+                                    {% else %}
+                                        {{ obj.0 }}
+                                    {% endif %}
+                                    
+                                    
+                                        | Applicant:<a href='{% url "kalyan:kalyan_profile" vtype=obj.2 %}'>  {{ obj.1 }}</a>
+
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- 
+                <div class="panel-body" style="word-break: break-all; word-wrap: break-word;">
+                    <p class="lat-post-content" style="word-break: break-all; white-space: normal;">
+                        {{ obj.ucomplain|linebreaks }} {{ obj.usuggestion|linebreaks }} 
+                            {% if 'gov' in request.session.keys %}                       
+                            <a href="{{ obj.get_absolute_url }}">View Detail</a>
+                            {% else %}
+                            {% endif %}
+
+                    </p>
+                </div -->
+                <div calss="panel-footer">
+                    <span class="label label-default">
+                        {{ obj.3|localtime|timesince }} ago
+                    </span>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+<div class="col-md-1"></div>
+    <div class="col-md-3">
+
+{% if flag %}
+			<div class="col-md-5">
+				<div class="panel panel-default">
+                	<div class="panel-heading">
+                    	<div class="text-center">
+                    		<h2 style="margin-bottom: 30px;">Personal Details</h2>
+                    	</div>
+                    </div>
+                    <div class="panel-body">
+						{% for user in pobj %}
+						<div class="clearfix">
+							User name : {{ user.uname }}
+						</div>
+						<hr/>
+						<div class="clearfix">							
+							Bahmashah Card Id : {{ user.bcardid }}
+						</div>
+						<hr/>
+
+						<div class="clearfix">
+							Account created On : {{ user.created_on }}
+						</div>
+						<hr/>
+
+						<div class="clearfix">
+							Last Logged into account on : {{ user.last_logged_in }}
+						</div>
+						<hr/>
+
+						{% endfor %}
+						<div class="clearfix">
+							{{ cvar }} {{ instance.ulocation }}
+						</div>
+						<br/>
+                        <hr/>
+                        <a href="/profile">View Full Details</a>
+                    </div>
+			</div>
+
+{% endif %}
+
+
+    <div class="col-md-1">
+    </div>
+</div>
+</div>
+
+            <div class="pagination">
+            <span class="step-links">
+                {% if comqset.has_previous %}
+                    <a href="?page={{ comqset.previous_page_number }}"><< Previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ comqset.number }} of {{ comqset.paginator.num_pages }}
+                </span>
+                {% if comqset.has_next %}
+                    <a href="?page={{ comqset.next_page_number }}">Next >></a>
+                {% endif %}
+            </span>
+        </div>    
+
+
+</div>
+
+
+
+{% endblock %}
+{% block includes %}
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+
+{% endblock %}

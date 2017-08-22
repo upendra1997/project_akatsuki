@@ -3,14 +3,14 @@
 Compalin
 {% endblock %}
 {% block content %}
-<div style="margin-bottom: 60px">
-<form action="" method="post" style="padding-top: 20px; margin-bottom: 100px;">
+<form action="" method="post">
 {% csrf_token %}
+<div>
 <input type="hidden" name="location" id="loc" value="">
-<div class="container centered col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6 col-lg-offset-4 col-lg-4  ">
+<div class="centered col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6 col-lg-offset-4 col-lg-4  ">
  <!-- col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6 col-lg-offset-4 col-lg-4 -->
 <br />
-    <div class="panel panel-default">
+    <div class="panel panel-default"   style="margin-top: 20px; margin-bottom: 80px">
         <div class="panel-heading">
             <h2 align="center">Complains or Suggestions</h2>
         </div>
@@ -65,8 +65,8 @@ Compalin
                 </div>
     </div>
 </div>
-</form>
 </div>
+</form>
 <!-- 
 
 	<form action="" method="post">

@@ -1,4 +1,5 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en-US">
     <head>
@@ -14,9 +15,9 @@
 
         {% endblock %}
 
-        <link rel ="icon" href=""> 
+        <link rel ="icon" href="{% static 'kalyan/img/favicon.png' %}"> 
         <link href="{% static 'kalyan/css/bootstrap.min.css' %}" rel="stylesheet">
-        <link href="{% static 'kalyan/css/styles.css' %}" rel="stylesheet">
+       <!--  <link href="{% static 'kalyan/css/styles.css' %}" rel="stylesheet"> -->
           <!-- <script src="js/bootstrap.min.js"/>
         <script src="js/scripts.js"/> -->
     </head>
@@ -25,8 +26,15 @@
             font-family: Font;
             src: url({% static 'kalyan/fonts/Roboto-Regular.ttf' %});
         }
+           /* html {
+                background:url({% static 'kalyan/img/Bhamashah.jpg' %}) no-repeat center center fixed;
+            }
+
+            body {
+                background:rgba(255,255,255,0.8); /* applies a 50% transparent white background */
+            }        
     </style>
-    <body style="font-family: Font; padding-top: 40px; padding-bottom: 40px;" >
+    <body style="font-family: Font; padding-top: 40px; padding-bottom: 40px;" background="{% static 'kalyan/img/bg.jpg' %}" style="background-repeat: no-repeat; background-attachment: fixed; background-position: center;">
      <!-- navbar-fixed-top -->
                     <nav class="navbar navbar-default navbar-fixed-top">
                         <div class="container-fluid">
@@ -35,12 +43,18 @@
                         </div>
                         <ul class="nav navbar-nav">
                             <li><a href="/public_views/complains/all">Public Views</a></li>
+                            <li><a href="/applis_view">Application Views</a></li>
                             {% if "gov" not in request.session.keys %}
                             <li><a href="/scomplain">Complain | Suggest</a></li>
                             {% endif %}
+                            <li><a href="/Services/0">Services</a></li>
                             {% if "id" not in request.session.keys %}
                             <li><a href="/register">Register</a></li>
                             <li><a href="/login">Login</a></li>
+                            {% endif %}
+                            {% if "id" in request.session.keys and "gov" not in request.session.keys %}
+
+                            <li><a href="/profile/{{request.session.id}}">Profile</a></li>
                             {% endif %}
                             <li><a href="/about">About Us</a></li>
                             {% if "id" in request.session.keys %}

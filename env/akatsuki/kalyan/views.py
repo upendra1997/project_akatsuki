@@ -8,10 +8,9 @@ from django.utils import timezone
 import re
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Sum
+import urllib.request, json 
+		
 
-
-aadhar = ''
-bah=''
 def index(request):
 
 	return render(request,"kalyan/HE/public/index.html",{})
@@ -19,22 +18,49 @@ def index(request):
 def register(request):
 	if("id" in request.session.keys()):
 		return HttpResponseRedirect("/")
-	flag = True
-	aadharno = 0
+	flag = False
+	aadharno = ''
 	error = ''
+	bah = ''
 	if(request.method == 'POST'):
 		bah = request.POST["bhamashah"]
 		ada = request.POST["aadhar"]
 		if(bah == '' or ada == ''):
 			error = "All the fields are required"
+		bah=bah.upper()
+		string="https://apitest.sewadwaar.rajasthan.gov.in/app/live/Service/hofAndMember/ForApp/%s?client_id=ad7288a4-7764-436d-a727-783a977f1fe1" % (str(bah))	
+		with urllib.request.urlopen(string) as url:
+			data=json.loads(url.read().decode())
+		if 'hof_Details' in data.keys():
+
+			data=data['hof_Details']
+			if 'AADHAR_ID' in data.keys():
+	
+			
+				if str(data['AADHAR_ID'])==str(ada):
+					flag=True
+					
+					request.session["prof"]=data
+				else:
+					error='Verification Failed, Check the entered FAMILY ID NO and Aadhar Id No and Try again..'
+			else:
+				error='Verification Failed, Check the entered FAMILY ID NO and Aadhar Id No and Try again..'
+		else:
+			error='Verification Failed, Check the entered FAMILY ID NO and Aadhar Id No and Try again..'
+
+
 	# check with api if verified set flag = true else write into error 
 	
 	if(flag):
-		request.session["aadhar"] = aadharno
+		request.session["aadhar"] = bah
 		return HttpResponseRedirect("register/accept")
 	if(error != '' and flag == False):
 		return render(request,"kalyan/HE/public/register.html",{'error': error})
 	return render(request,"kalyan/HE/public/register.html")
+
+
+
+
 
 def accept(request):
 	if("id" in request.session.keys()):
@@ -42,12 +68,10 @@ def accept(request):
 	if('aadhar' not in request.session.keys() and request.method == 'GET'):
 		return HttpResponseRedirect("/")
 	elif('aadhar' in request.session.keys() and request.method == 'GET'):
-		aadhar = request.session["aadhar"]
-		request.session.pop("aadhar",None)
 		return render(request,"kalyan/HE/public/accept.html")
-	elif('aadhar' not in request.session.keys() and request.method == 'POST'):
-		request.session.pop("aadhar",None)
+	elif('aadhar'  in request.session.keys() and request.method == 'POST'):
 		error = ''
+		# request.session.pop("aadhar",None)
 		username = request.POST['username']
 		password = request.POST['password']
 
@@ -65,9 +89,9 @@ def accept(request):
 	
 
 			else:
+				# print(bah)
 				profile_obj=Profile()
-				bah=str(randint(0,5000))
-				profile_obj.bcardid=bah
+				profile_obj.bcardid=request.session["aadhar"]
 				profile_obj.uname=username
 				profile_obj.password=password
 				profile_obj.save()
@@ -76,8 +100,15 @@ def accept(request):
 				# qset=Profile.objects.all()
 				# for i in qset:
 				# 	print(i.uname,i.password,i.bcardid,timezone.localtime(i.created_on),timezone.localtime(i.last_logged_in))
-				request.session["id"]=obj[0].pk
-				return render(request,"kalyan/HE/public/accept.html",{"error":"Registration Successful"})
+				request.session["id"]=obj[0].bcardid
+				
+				if(request.POST["location"]==''):
+					request.session["location"]="Location not known"
+				else:
+					request.session["location"]=request.POST["location"]	
+				
+				return HttpResponseRedirect("/login")
+				# return render(request,"kalyan/HE/public/accept.html",{"error":"Registration Successful"})
 		else:
 			return render(request,"kalyan/HE/public/accept.html",{"error":error})
 
@@ -95,14 +126,21 @@ def login(request):
 			error='User not registered'
 		else:
 			if str(password) == str(obj[0].password):
-				request.session["id"]=obj[0].pk
+				request.session["id"]=obj[0].bcardid
 				error='Login Successful'
+				# if obj[0].user_type==False:
+				# 	string="https://apitest.sewadwaar.rajasthan.gov.in/app/live/Service/hofAndMember/ForApp/%s?client_id=ad7288a4-7764-436d-a727-783a977f1fe1" % (str(obj[0].bcardid))	
+				# 	with urllib.request.urlopen(string) as url:
+				# 		data=json.loads(url.read().decode())
+				# 	data=data['hof_Details']
+				# 	request.session["prof"]=data
 				if(request.POST["location"]==''):
 					request.session["location"]="Location not known"
 				else:
 					request.session["location"]=request.POST["location"]
 				if obj[0].user_type:
 					request.session["gov"]=True
+				return HttpResponseRedirect("/")
 
 			else:
 				error='Wrong Password'
@@ -158,7 +196,7 @@ def scomplain(request):
 	if(request.method == 'POST' and 'complain' in request.POST.keys()):
 		print("write database into complain fields")
 		complain_text=suggest_text
-		obj=Profile.objects.filter(pk=request.session["id"])
+		obj=Profile.objects.filter(bcardid=request.session["id"])
 		cur_uname=obj[0].uname
 		complainfor=request.POST["dropdown"]
 		cobj=Complains()
@@ -166,20 +204,22 @@ def scomplain(request):
 		cobj.subject=request.POST["subject"]
 		cobj.ucomplain=complain_text
 		cobj.complain_for=complainfor
+		cobj.ulocation=request.session["location"]
 		cobj.save()
-		obj = Category.objects.get(cname=complainfor)
-		obj.num_complains=obj.num_complains+1
-		obj.save()
+		# obj = Category.objects.get(cname=complainfor)
+		# obj.num_complains=obj.num_complains+1
+		# obj.save()
 
 
 
 		a = 'complain filed'
-		return render(request,"kalyan/HE/public/scomplain.html",{"a":a,"color":"green","list":ls})
+		return HttpResponseRedirect("/public_views/complains/all")
+		# return render(request,"kalyan/HE/public/scomplain.html",{"a":a,"color":"green","list":ls})
 	
 	elif(request.method == 'POST' and 'suggest' in request.POST.keys()):
 		print("write database into suggest field")
 		suggest_text=str(request.POST['description'])
-		obj=Profile.objects.filter(pk=request.session["id"])
+		obj=Profile.objects.filter(bcardid=request.session["id"])
 		cur_uname=obj[0].uname
 		suggestfor=request.POST["dropdown"]
 		sobj=Suggestions()
@@ -189,13 +229,15 @@ def scomplain(request):
 		sobj.usuggestion=suggest_text
 		sobj.suggest_for=suggestfor
 		sobj.save()
-		obj = Category.objects.get(cname=suggestfor)
-		obj.num_suggestions=obj.num_suggestions+1
-		obj.save()
+		# obj = Category.objects.get(cname=suggestfor)
+		# obj.num_suggestions=obj.num_suggestions+1
+		# obj.save()
 
 
 		a = 'suggestion registered'
-		return render(request,"kalyan/HE/public/scomplain.html",{"a":a,"color":"green","list":ls})
+		return HttpResponseRedirect("/public_views/suggestions/all")
+		
+		# return render(request,"kalyan/HE/public/scomplain.html",{"a":a,"color":"green","list":ls})
 	
 	else:
 		return render(request,"kalyan/HE/public/scomplain.html",{"list":ls,"a":"Don't disclose your identity when writing into the box.","color":"purple"})
@@ -242,11 +284,19 @@ def public_views(request,vtype=None,ctype=None):
 		# If page is out of range (e.g. 9999), deliver last page of results.
 		comqset = paginator.page(paginator.num_pages)
 
+	# all_sug=Category.objects.all().aggregate(Sum('num_suggestions')).get('num_suggestions__sum', 0)
+
+	# all_comp=Category.objects.all().aggregate(Sum('num_complains')).get('num_complains__sum', 0)
+	all_sug=Suggestions.objects.all().count()
+	all_comp=Complains.objects.all().count()
 	catqset=Category.objects.all()
-	all_sug=Category.objects.all().aggregate(Sum('num_suggestions')).get('num_suggestions__sum', 0)
-
-	all_comp=Category.objects.all().aggregate(Sum('num_complains')).get('num_complains__sum', 0)
-
+	ls=[]
+	for obj in catqset:
+		numcomp=Complains.objects.filter(complain_for=obj.cname).count()
+		numsugg=Suggestions.objects.filter(suggest_for=obj.cname).count()
+		ls.append([numcomp,numsugg,obj.cname])
+			
+	
 	context={	"comqset":comqset,
 				"catqset":catqset,
 				"refer":refer,
@@ -257,7 +307,8 @@ def public_views(request,vtype=None,ctype=None):
 				"all_comp":all_comp,
 				"cval":ctype,
 				"antival":vtype,
-				"cat":cat
+				"cat":cat,
+				"ls":ls
 			}
 	return render(request,"kalyan/HE/public/public_views.html",context)
 
@@ -267,21 +318,23 @@ def public_view_detail(request,vtype=None,id=None):
 	if("id" not in request.session.keys()):
 		return HttpResponseRedirect("/public_views/complains/all/")
 
-
 	if vtype=='complains':
 		instance=get_object_or_404(Complains,id=id)
 		refer="Filed against"
+		cvar="Complain filing location :"
 	
 	elif vtype=='suggestions':
 		instance=get_object_or_404(Suggestions,id=id)
 		refer="Suggestion for"
+		cvar=""
 
-	obj=Profile.objects.filter(pk=request.session["id"])
+	obj=Profile.objects.filter(bcardid=request.session["id"])
 	utype=obj[0].user_type
 	if utype==True:
 		pobj=Profile.objects.filter(uname=instance.uname)
-		
+		request.session["userprof"]=pobj[0].bcardid
 
+			
 	else:
 		pobj=''
 		
@@ -290,16 +343,126 @@ def public_view_detail(request,vtype=None,id=None):
 				"instance":instance,
 				"refer":refer,
 				"pobj":pobj,
-				"flag":utype
+				"flag":utype,
+				"cvar":cvar
 
 			}	
 	return render(request,"kalyan/HE/public/public_view_detail.html",context)
 
+def service(request,id=None):
+	
+	aobj=AppCategory.objects.all()
+	obj={}
+			
+	if int(id)>0:
+		obj[id]=True
+		pqbj=Profile.objects.filter(bcardid=request.session["id"])
+		cur_uname=pqbj[0].uname
+		myobj=Applications()
+		myobj.uname=cur_uname
+		myobj.app_name=aobj[int(id)-1].app_name
+		myobj.save()
 
+	return render(request,"kalyan/HE/public/avail.html",{"obj":obj,"aobj":aobj})
+	
+	
 
 
 def logout(request):
 	request.session.pop("id",None)
 	request.session.pop("gov",None)
 	request.session.pop("location",None)
+	request.session.pop("prof",None)
+	request.session.pop("aadhar",None)
+
 	return render(request,"kalyan/HE/public/index.html",{})
+
+
+
+
+def profile(request,vtype=None):
+	# d64={}
+	# if('prof' in request.session.keys()):
+	# 	data=request.session["prof"]
+	# else:
+	# 	data = ''
+	# string="https://apitest.sewadwaar.rajasthan.gov.in/app/live/Service/hofMembphoto/%s/%s?client_id=ad7288a4-7764-436d-a727-783a977f1fe1" % (str(data['BHAMASHAH_ID']),str(data['M_ID']))	
+	# with urllib.request.urlopen(string) as url:
+	# 	d64=json.loads(url.read().decode())
+	# context={
+
+	# 	"data":data,
+	# 	"d64":d64["hof_Photo"]["PHOTO"]
+	# }
+
+	# print(data)
+
+
+	# return render(request,"kalyan/HE/public/profile_page.html",context)	
+
+	string="https://apitest.sewadwaar.rajasthan.gov.in/app/live/Service/hofAndMember/ForApp/%s?client_id=ad7288a4-7764-436d-a727-783a977f1fe1" % (str(vtype))	
+	with urllib.request.urlopen(string) as url:
+		data=json.loads(url.read().decode())
+	data=data['hof_Details']
+
+
+	string="https://apitest.sewadwaar.rajasthan.gov.in/app/live/Service/hofMembphoto/%s/%s?client_id=ad7288a4-7764-436d-a727-783a977f1fe1" % (str(data['BHAMASHAH_ID']),str(data['M_ID']))	
+	with urllib.request.urlopen(string) as url:
+		d64=json.loads(url.read().decode())
+
+	context={
+
+		"data":data,
+		"d64":d64["hof_Photo"]["PHOTO"]
+
+	}
+
+	print(data)
+
+	return render(request,"kalyan/HE/public/profile_page.html",context)	
+
+
+
+
+
+
+# def view_user(request,vtype=None,id=None):
+	
+# 	string="https://apitest.sewadwaar.rajasthan.gov.in/app/live/Service/hofAndMember/ForApp/%s?client_id=ad7288a4-7764-436d-a727-783a977f1fe1" % (str(request.session["userprof"]))	
+# 	with urllib.request.urlopen(string) as url:
+# 		data=json.loads(url.read().decode())
+# 	data=data['hof_Details']
+# 	request.session.pop("userprof",None)			
+
+
+# 	string="https://apitest.sewadwaar.rajasthan.gov.in/app/live/Service/hofMembphoto/%s/%s?client_id=ad7288a4-7764-436d-a727-783a977f1fe1" % (str(data['BHAMASHAH_ID']),str(data['M_ID']))	
+# 	with urllib.request.urlopen(string) as url:
+# 		d64=json.loads(url.read().decode())
+
+# 	context={
+
+# 		"data":data,
+# 		"d64":d64["hof_Photo"]["PHOTO"]
+
+# 	}
+
+# 	print(data)
+
+
+# 	return render(request,"kalyan/HE/public/user_profile_request.html",context)	
+
+
+
+def app_view(request):
+	ls=[]
+	qset=Applications.objects.all()
+	for obj in qset:
+		imo=Profile.objects.filter(uname=obj.uname)
+		ls.append([obj.app_name,obj.uname,imo[0].bcardid,obj.created_on])
+	return render(request,"kalyan/HE/public/application_views.html",{"ls":ls,"flag":False})	
+
+
+	
+		
+	
+	
