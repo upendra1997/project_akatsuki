@@ -18,7 +18,9 @@
 					{{ aobj.0.app_name }} : {{ aobj.0.app_desc }}
 					<br/>
 					<br/>
+					{% if "gov" not in request.session.keys %}
 					<button id="btnLogin" class="btn btn-default"><a href="/Services/1">Apply for this service</a></button> 
+					{% endif %}
 					<br/>
 					<br>
 					{% if '1' in obj.keys %} We have registered your application, will notify you as soon as it is processed..{% endif %}
@@ -31,7 +33,9 @@
 					{{ aobj.1.app_name }} : {{ aobj.1.app_desc }}
 					<br/>
 					<br/>
+					{% if "gov" not in request.session.keys %}
 					<button id="btnLogin" class="btn btn-default"><a href="https://pdsportal.nic.in/main.aspx">Apply for this service</a></button> 
+					{% endif %}
 					<br/>
 					<br/>
 				</p>
@@ -42,7 +46,9 @@
 					{{ aobj.2.app_name }} : {{ aobj.2.app_desc }} 
 					<br/>
 					<br/>
+					{% if "gov" not in request.session.keys %}
 					<button id="btnLogin" class="btn btn-default"><a href="/Services/3">Apply for this service</a></button> 
+					{% endif %}
 					<br/>
 					<br>
 					{% if '3' in obj.keys %} We have registered your application, will notify you as soon as it is processed..{% endif %}
@@ -55,7 +61,9 @@
 					{{ aobj.3.app_name }} : {{ aobj.3.app_desc }}
 					<br/>
 					<br/>
+					{% if "gov" not in request.session.keys %}
 					<button id="btnLogin" class="btn btn-default"><a href="/Services/4">Apply for this service</a></button> 
+					{% endif %}
 					<br/>
 					<br>
 	{% if '4' in obj.keys %} We have registered your application, will notify you as soon as it is processed..{% endif %}
