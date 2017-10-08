@@ -8,6 +8,7 @@ cffi==1.10.0
 chardet==3.0.4
 check50==2.0.1
 click==6.7
+Corpora==1.0
 cs50==2.2.0
 cssselect==1.0.1
 cssselect2==0.2.0
