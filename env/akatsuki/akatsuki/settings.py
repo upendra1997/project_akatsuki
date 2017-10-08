@@ -25,7 +25,7 @@ SECRET_KEY = 'nmql1%c!#_p)!+ekh&1=(5&$n9^uvhc0h&#z98038f9)cx^b99'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://private-upendra1997.c9users.io/','private-upendra1997.c9users.io']
+ALLOWED_HOSTS = ['https://hdggxin-kalyan.herokuapp.com/','https://private-upendra1997.c9users.io/','private-upendra1997.c9users.io']
 
 
 # Application definition
