@@ -16,7 +16,7 @@ decorator==4.1.2
 Django==4.2.18
 EditorConfig==0.12.1
 feedparser==5.2.1
-Flask==0.12.2
+Flask==2.2.5
 Flask-JSGlue==0.3.1
 Flask-Session==0.3.1
 Flask-SQLAlchemy==2.2
