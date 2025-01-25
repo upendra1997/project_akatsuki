@@ -52,7 +52,7 @@ render50==2.0.1
 requests==2.18.4
 requests-oauthlib==0.8.0
 six==1.10.0
-SQLAlchemy==1.1.13
+SQLAlchemy==1.2.19
 sqlparse==0.2.3
 style50==2.1.2
 submit50==2.4.1
