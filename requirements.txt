@@ -61,7 +61,7 @@ tinycss==0.4
 tinycss2==0.6.0
 traitlets==4.3.2
 twython==3.5.0
-urllib3==1.26.19
+urllib3==2.6.3
 virtualenv==20.26.6
 WeasyPrint==0.40
 webencodings==0.5.1
